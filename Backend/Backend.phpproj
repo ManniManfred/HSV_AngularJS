@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Name>HSV_AngularJS</Name>
+    <ProjectGuid>{65e5ab51-de1e-4de8-af0e-7b745d2be5ec}</ProjectGuid>
+    <RootNamespace>HSV_AngularJS</RootNamespace>
+    <OutputType>Library</OutputType>
+    <ProjectTypeGuids>{A0786B88-2ADB-4C21-ABE8-AA2D79766269}</ProjectTypeGuids>
+    <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+    <Server>PHPDev</Server>
+    <PublishEvent>None</PublishEvent>
+    <PHPDevAutoPort>True</PHPDevAutoPort>
+    <PHPDevPort>37730</PHPDevPort>
+    <PHPDevHostName>localhost</PHPDevHostName>
+    <IISProjectUrl>http://localhost:37730/</IISProjectUrl>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <IncludeDebugInformation>true</IncludeDebugInformation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <IncludeDebugInformation>false</IncludeDebugInformation>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Config.inc.php" />
+    <Compile Include="Core.inc.php" />
+    <Compile Include="Data.php" />
+    <Compile Include="GetSelf.php" />
+    <Compile Include="Logout.php" />
+    <Compile Include="Login.php" />
+    <Compile Include="php-crud-api\api.php" />
+    <Compile Include="phpinfo.php" />
+    <Compile Include="test.php" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="php-crud-api\" />
+  </ItemGroup>
+</Project>
