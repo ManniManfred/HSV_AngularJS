@@ -1,0 +1,21 @@
+﻿
+body {
+ /* border: solid 8pt #5555aa; */
+ padding-left: 16pt
+}
+.article { 
+ /*  border-bottom: solid 1px #aaaaaa; margin-bottom: 8pt */
+}
+/* .container { border: solid 2pt #5555aa; } */
+#SiteTitle {
+  /* border: solid 2pt #5555aa; */
+  /* background-color: */
+}
+.vertTable td { padding: 10px; }
+
+.sortorder:after {
+	content: '\25b2';
+}
+.sortorder.reverse:after {
+	content: '\25bc';
+}

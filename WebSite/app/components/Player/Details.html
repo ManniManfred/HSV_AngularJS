@@ -1,0 +1,78 @@
+<h2>{{player.firstname}} {{player.lastname}}</h2>
+<img src="assets/img/spieler/{{player | imageName}}.jpg" alt="{{player.name}}">
+<form name="frm">
+	<table class="vertTable">
+		<tr ng-show="hasRight('editMasterData')">
+			<th>Vorname</th>
+			<td>
+				<input class="form-control" type="text" ng-model="player.firstname" />
+			</td>
+		</tr>
+		<tr ng-show="hasRight('editMasterData')">
+			<th>Nachname</th>
+			<td>
+				<input class="form-control" type="text" ng-model="player.lastname" />
+			</td>
+		</tr>
+		<tr>
+			<th>Spitzname</th>
+			<td>
+				<div ng-show="!hasRight('editMasterData')">{{player.nickname}}</div>
+				<input class="form-control" ng-show="hasRight('editMasterData')" type="text" ng-model="player.nickname" />
+			</td>
+		</tr>
+		<tr>
+			<th colspan="2">
+				<h3>Basisdaten (bis 2012)</h3>
+			</th>
+		</tr>
+		<tr>
+			<th>Spiele</th>
+			<td>
+				<div ng-show="!hasRight('editMasterData')">{{player.count_games}}</div>
+				<input class="form-control" ng-show="hasRight('editMasterData')" type="text" ng-model="player.count_games" />
+			</td>
+		</tr>
+		<tr>
+			<th>Tore</th>
+			<td>
+				<div ng-show="!hasRight('editMasterData')">{{player.count_goals}}</div>
+				<input class="form-control" ng-show="hasRight('editMasterData')" type="text" ng-model="player.count_goals" />
+			</td>
+		</tr>
+	</table>
+
+	<p>
+		<button ng-show="hasRight('editMasterData')" class="btn btn-default" ng-click="save()">Speichern</button>
+		<button class="btn btn-default" onclick="window.history.back();">Zur&uuml;ck</button>
+	</p>
+</form>
+
+<!--
+<h2>Saison</h2>
+
+<table>
+
+<tr>
+  <th>Anzahl Spiele Gesamt</th>
+  <td>{{spieler.anzahlSpiele}}</td>
+</tr>
+<tr>
+  <th>Anzahl Tore Gesamt</th>
+  <td>{{spieler.tore}} + {{sp.anzahlTore}}</td>
+</tr>
+<tr>
+  <th>Gelbe Karten</th>
+  <td>{{sp.gelb}}</td>
+</tr>
+<tr>
+  <th>Gelbrote Karten</th>
+  <td>{{sp.gelbrot}}</td>
+</tr>
+<tr>
+  <th>Rote Karten</th>
+  <td>{{sp.rot}}</td>
+</tr>
+</table>
+
+-->

@@ -596,7 +596,6 @@
     <Content Include="app\components\Player\PlayerController.js" />
     <Content Include="app\components\Team\TeamDetails.html" />
     <Content Include="app\components\Team\TeamController.js" />
-    <Content Include="app\services\SettingsService.js" />
     <Content Include="app\services\DataService.js" />
     <Content Include="app\services\UserService.js" />
     <Content Include="app\filters.js" />

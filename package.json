@@ -1,0 +1,22 @@
+{
+  "name": "LeagueManager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ManniManfred/LeagueManager.git"
+  },
+  "author": "manfred.rosskamp@gmx.de",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ManniManfred/LeagueManager/issues"
+  },
+  "homepage": "https://github.com/ManniManfred/LeagueManager",
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}

@@ -1,0 +1,60 @@
+
+<h2>Tabelle</h2>
+
+<table class="table" ng-controller="RankTableCtrl">
+	<tr>
+		<th>
+			<a href="" title="Nummer" ng-click="order('rank')">N</a>
+			<span class="sortorder" ng-show="predicate === 'rank'" ng-class="{reverse:reverse}"></span>
+		</th>
+		<th>
+			<a href="" ng-click="order('name')">Mannschaft</a>
+			<span class="sortorder" ng-show="predicate === 'name'" ng-class="{reverse:reverse}"></span>
+		</th>
+		<th>
+			<a href="" title="Spiele" ng-click="order('match_count')">SP</a>
+			<span class="sortorder" ng-show="predicate === 'match_count'" ng-class="{reverse:reverse}"></span>
+		</th>
+		<th>
+			<a href="" title="Siege" ng-click="order('wins')">S</a>
+			<span class="sortorder" ng-show="predicate === 'wins'" ng-class="{reverse:reverse}"></span>
+		</th>
+		<th>
+			<a href="" title="Unentschieden" ng-click="order('stand_off')">U</a>
+			<span class="sortorder" ng-show="predicate === 'stand_off'" ng-class="{reverse:reverse}"></span>
+		</th>
+		<th>
+			<a href="" title="Niederlagen" ng-click="order('defeat')">U</a>
+			<span class="sortorder" ng-show="predicate === 'defeat'" ng-class="{reverse:reverse}"></span>
+		</th>
+		<th>
+			<a href="" title="Tore" ng-click="order('shoot')">T</a>
+			<span class="sortorder" ng-show="predicate === 'shoot'" ng-class="{reverse:reverse}"></span>
+		</th>
+		<th>
+			<a href="" title="Gegentore" ng-click="order('got')">GT</a>
+			<span class="sortorder" ng-show="predicate === 'got'" ng-class="{reverse:reverse}"></span>
+		</th>
+		<th>
+			<a href="" title="Tordifferenz" ng-click="order('goal_diff')">TD</a>
+			<span class="sortorder" ng-show="predicate === 'goal_diff'" ng-class="{reverse:reverse}"></span>
+		</th>
+		<th>
+			<a href="" title="Punkte" ng-click="order('points')">PKT</a>
+			<span class="sortorder" ng-show="predicate === 'points'" ng-class="{reverse:reverse}"></span>
+		</th>
+	</tr>
+	<tr ng-repeat="p in place | orderBy:predicate:reverse">
+		<td>{{p.rank}}</td>
+		<td><a href="{{p.homepage}}" target="_blank">{{p.name}}</a></td>
+		<td>{{p.match_count}}</td>
+		<td>{{p.wins}}</td>
+		<td>{{p.stand_off}}</td>
+		<td>{{p.defeat}}</td>
+		<td>{{p.shoot}}</td>
+		<td>{{p.got}}</td>
+		<td>{{p.goal_diff}}</td>
+		<td>{{p.points}}</td>
+	</tr>
+</table>
+

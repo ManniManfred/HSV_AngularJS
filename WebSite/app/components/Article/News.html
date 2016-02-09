@@ -1,0 +1,15 @@
+<h2>Neuigkeiten</h2>
+
+<div class="container" ng-controller="ArticlesCtrl">
+	<div>
+		<a ng-show="hasRight('createArticle')" href="#/EditArticle/new">Neuer Artikel</a>
+	</div>
+	<div ng-repeat="art in articles">
+		<div class="article">
+			<h2>{{art.title}}</h2>
+			<p ng-bind-html="art.content"></p>
+			<a ng-show="hasRight('editArticle')" href="#/EditArticle/{{art.id}}">Bearbeiten</a>
+			<a ng-show="hasRight('editArticle')" href="#/DeleteArticle/{{art.id}}">L&ouml;schen</a>
+		</div>
+	</div>
+</div>

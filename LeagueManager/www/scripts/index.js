@@ -16,10 +16,12 @@
     };
 
     function onPause() {
-        // TODO: Diese Anwendung wurde ausgesetzt. Speichern Sie hier den Anwendungszustand.
+    	// TODO: Diese Anwendung wurde ausgesetzt. Speichern Sie hier den Anwendungszustand.
+
     };
 
     function onResume() {
-        // TODO: Diese Anwendung wurde erneut aktiviert. Stellen Sie hier den Anwendungszustand wieder her.
+    	// TODO: Diese Anwendung wurde erneut aktiviert. Stellen Sie hier den Anwendungszustand wieder her.
+    	alert("Hallo Welt");
     };
 } )();

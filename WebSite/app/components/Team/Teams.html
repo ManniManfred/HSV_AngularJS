@@ -1,0 +1,25 @@
+<h2>Mannschaften</h2>
+<form>
+	<input type="text" ng-model="search">
+	<p ng-show="search">Du suchst gerade nach: {{search}}</p>
+</form>
+
+<p ng-show="hasRight('editMasterData')">
+	<a href="#/TeamDetails/new">Neue Mannschaft</a>
+</p>
+<table class="table" ng-controller="TeamsCtrl">
+	<tr>
+		<th>
+			<a href="" ng-click="order('name')">Name</a>
+			<span class="sortorder" ng-show="predicate === 'name'" ng-class="{reverse:reverse}"></span>
+		</th>
+		<th>
+			<a href="" ng-click="order('homepage')">Webseite</a>
+			<span class="sortorder" ng-show="predicate === 'homepage'" ng-class="{reverse:reverse}"></span>
+		</th>
+	</tr>
+	<tr ng-repeat="(key, team) in teams | filter: search | orderBy:predicate:reverse">
+		<td><a href="#/TeamDetails/{{team.id}}">{{team.name}}</a></td>
+		<td><a href="{{team.homepage}}" target="_blank">{{team.homepage}}</a></td>
+	</tr>
+</table>
