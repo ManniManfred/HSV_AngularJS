@@ -14,7 +14,7 @@ app.factory('SettingsService', function ($rootScope) {
 	var backend = backendPath + 'data.php/';
 
 	var service = {
-		'teamId': 'null',
+		'teamId': null,
 		'backend': backend,
 		'tablePrefix': tableP,
 		'backPrefix': backend + tableP,

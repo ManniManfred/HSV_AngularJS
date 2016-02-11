@@ -46,7 +46,7 @@
 
 					<li ng-show="currentUser == null"><a href="#/Login"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
 
-					<li ng-show="currentUser != null"><a href="#/User"><span class="glyphicon glyphicon-user"></span>{{currentUser.firstname}} {{currentUser.lastname}}</a></li>
+					<li ng-show="currentUser != null"><a href="#/User/{{currentUser.id}}"><span class="glyphicon glyphicon-user"></span>{{currentUser.firstname}} {{currentUser.lastname}}</a></li>
 					<li ng-show="currentUser != null"><a href="#/Logout"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
 				</ul>
 			</div>

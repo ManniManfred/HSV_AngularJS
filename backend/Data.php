@@ -25,13 +25,13 @@ $isAllowedTableFunction = function($cmd, $db, $tab)
         }
     }
 
-    //if ($cmd == 'update' || $cmd == 'delete' || $cmd == 'create') {
+    if ($cmd == 'list' || $cmd == 'read' || $cmd == 'update' || $cmd == 'delete' || $cmd == 'create') {
         $core = new MyCore();
         $user = $core->GetSelf();
         if ($user != null && $user['rights'] == 'ADMIN') {
             return true;
         }
-    //}
+    }
 
     return false;
 };
