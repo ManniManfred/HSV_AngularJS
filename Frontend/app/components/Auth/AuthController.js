@@ -18,4 +18,3 @@ app.controller('LoginCtrl', function ($scope, $location, $http, UserService) {
 		return true;
 	};
 });
-

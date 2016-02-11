@@ -2,44 +2,73 @@
 <head>
 	<meta charset="utf8" />
 	<title>{{rootScope.title}}</title>
-	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
 	<link rel="stylesheet" href="assets/libs/ng-ckeditor.css">
 	<link rel="stylesheet" href="assets/css/app.css">
 </head>
 <body>
-	<div>
-		<div class="container">
-			<h1 id="SiteTitle" class="well">{{title}}</h1>
-		</div>
-		<div class="container">
-			<div class="pull-right">
-				<a href="#/Login" ng-cloak ng-show="currentUser == null">Login</a>
-				<p ng-cloak ng-show="currentUser != null">{{currentUser.firstname}} {{currentUser.lastname}}</p>
-				<a ng-cloak href="#/Logout" ng-show="currentUser != null">Logout</a>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#/">{{title}}</a>
 			</div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav">
+					<li ng-repeat="site in sites">
+						<a href="#/{{site.id}}">{{site.title}}</a>
+					</li>
 
-			<div class="well">
-				<a href="#/">Start</a>
-				<div ng-repeat="site in sites">
-					<a href="#/{{site.id}}">{{site.title}}</a>
-				</div>
-
-				| <a href="#/Matches">Spiele</a>
-                | <a href="#/Player/RankSaison">Torjäger</a>
-				| <a href="#/Player/RankHistory">Ewige Liste</a>
-				| <a href="#/Impressum">Impressum</a>
-				| Saison
-                <select ng-model="selectedSaisonId" ng-options="s.id as s.name for s in saisons">
+					<li><a href="#/Matches">Spiele</a></li>
+					<li><a href="#/Player/RankSaison">Torjäger</a></li>
+					<li><a href="#/Player/RankHistory">Ewige Liste</a></li>
+					<!--
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Page 1-1</a></li>
+							<li><a href="#">Page 1-2</a></li>
+							<li><a href="#">Page 1-3</a></li>
+						</ul>
+					</li>
+					-->
+				</ul>
+				<!-- 
+				<select ng-model="selectedSaisonId" ng-options="s.id as s.name for s in saisons">
 				</select>
+					-->
+				<ul class="nav navbar-nav navbar-right">
+					<!-- <li><a href="#"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li> -->
 
+					<li ng-show="currentUser == null"><a href="#/Login"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+
+					<li ng-show="currentUser != null"><a href="#/User"><span class="glyphicon glyphicon-user"></span>{{currentUser.firstname}} {{currentUser.lastname}}</a></li>
+					<li ng-show="currentUser != null"><a href="#/Logout"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+				</ul>
 			</div>
-
-			<div ng-view></div>
-
 		</div>
+	</nav>
 
+	<div class="container">
+		<div ng-view></div>
 	</div>
+
+	<footer class="footer">
+		<p></p>
+		<p class="text-muted">
+			<span class="glyphicon glyphicon-copyright-mark"></span> Holthausener Sportverein
+				| <a href="#/Impressum">Impressum</a>
+		</p>
+
+	</footer>
+
 	<script src="assets/libs/php_crud_api_transform.js"></script>
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-route.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-sanitize.js"></script>
@@ -49,20 +78,20 @@
 	<script src="app/app.js"></script>
 	<script src="app/filters.js"></script>
 
-    <!-- services -->
+	<!-- services -->
 	<script src="config.js"></script>
 	<script src="app/services/UserService.js"></script>
 	<script src="app/services/DataService.js"></script>
-  
-    <!-- components -->
-    <script src="app/components/Article/ArticleController.js"></script>
-    <script src="app/components/Auth/AuthController.js"></script>
-    <script src="app/components/Match/MatchController.js"></script>
-    <script src="app/components/Player/PlayerController.js"></script>
-    <script src="app/components/Team/TeamController.js"></script>
 
-  <script>
-</script>
+	<!-- components -->
+	<script src="app/components/Article/ArticleController.js"></script>
+	<script src="app/components/Auth/AuthController.js"></script>
+	<script src="app/components/Match/MatchController.js"></script>
+	<script src="app/components/Player/PlayerController.js"></script>
+	<script src="app/components/Team/TeamController.js"></script>
+
+	<script>
+	</script>
 
 </body>
 </html>

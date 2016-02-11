@@ -27,6 +27,7 @@ app.config(function ($routeProvider) {
       .when('/Matches', { templateUrl: 'app/components/Match/Matches.html' })
       .when('/MatchDetails/:matchId', { templateUrl: 'app/components/Match/MatchDetails.html', controller: 'MatchDetailsCtrl' })
       .when('/Impressum', { templateUrl: 'app/components/HSV/Impressum.html' })
+	  .when('/User', { templateUrl: 'app/components/Auth/User.html' })
       .when('/Login', { templateUrl: 'app/components/Auth/Login.html', controller: 'LoginCtrl' })
       .when('/Logout', { templateUrl: 'app/components/Auth/Logout.html', controller: 'LogoutCtrl' })
       .otherwise({ redirectTo: '/' });

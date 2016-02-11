@@ -24,13 +24,20 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Frontend", "Frontend\", "{A
 		SlnRelativePath = "Frontend\"
 	EndProjectSection
 EndProject
+Project("{A0786B88-2ADB-4C21-ABE8-AA2D79766269}") = "Backend", "Backend\Backend.phpproj", "{65E5AB51-DE1E-4DE8-AF0E-7B745D2BE5EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A611BFDB-DBCB-4506-834D-B310142712AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A611BFDB-DBCB-4506-834D-B310142712AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A611BFDB-DBCB-4506-834D-B310142712AA}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{A611BFDB-DBCB-4506-834D-B310142712AA}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{65E5AB51-DE1E-4DE8-AF0E-7B745D2BE5EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65E5AB51-DE1E-4DE8-AF0E-7B745D2BE5EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
