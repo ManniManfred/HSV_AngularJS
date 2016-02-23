@@ -8,7 +8,7 @@ app.factory('SettingsService', function ($rootScope) {
 	$rootScope.teamId = null;
 
 	//$rootScope.title = "Holthausener Sportverein";
-	//$rootScope.sites = [{ id: 'History', 'title': "Geschichte" }];
+	//$rootScope.sites = [{ 'id': 'History', 'title': "Geschichte" }, { 'id': 'Player/RankHistory', 'title': 'Ewige Liste' }];
 	//$rootScope.teamId = 3;
 
 	var tableP = 'lm_';
