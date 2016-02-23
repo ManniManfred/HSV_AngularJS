@@ -37,7 +37,8 @@ app.factory('UserService', function ($http, $rootScope, SettingsService) {
 
 		if (neededRight == "editArticle" || neededRight == "createArticle"
 			|| neededRight == "deleteRight"
-			|| neededRight == "editMasterData") {
+			|| neededRight == "editMasterData"
+			|| neededRight == "userManagement") {
 			return $rootScope.currentUser.rights == 'ADMIN';
 		}
 		return false;

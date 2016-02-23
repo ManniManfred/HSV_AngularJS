@@ -7,6 +7,10 @@
 <form name="frm">
 	<p>
 		<input class="form-control" type="text" ng-model="article.title" placeholder="Titel" />
+
+		<select ng-show="teamId == null" class="form-control" ng-model="article.team_id" ng-options="team.id as team.name for team in teams">
+			<option value="null"></option>
+		</select>
 	</p>
 	<p>Erstellt am {{article.created | dateTime}}. 
 		Zuletzt bearbeitet am {{article.modified | dateTime}}

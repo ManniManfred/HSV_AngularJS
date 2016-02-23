@@ -15,6 +15,13 @@
 			</td>
 		</tr>
 		<tr ng-show="hasRight('editMasterData')">
+			<th>Mannschaft</th>
+			<td>
+				<select class="form-control" ng-model="user.id_team" ng-options="team.id as team.name for team in teams">
+				</select>
+			</td>
+		</tr>
+		<tr ng-show="hasRight('editMasterData')">
 			<th>Vorname</th>
 			<td>
 				<input class="form-control" type="text" ng-model="user.firstname" />
@@ -29,7 +36,7 @@
 		<tr ng-show="hasRight('editMasterData')">
 			<th>E-Mail</th>
 			<td>
-				<input class="form-control" type="text" ng-model="user.email" />
+				<input class="form-control" type="email" ng-model="user.email" />
 			</td>
 		</tr>
 	</table>

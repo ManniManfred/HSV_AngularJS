@@ -56,7 +56,7 @@ app.controller('PlayerDetailsCtrl', function ($scope, $routeParams, $http, Setti
 
 		return $http({ "method": method, "url": url, "data": data })
 			.then(function success(response) {
-				if ($routeParams.articleId == 'new') {
+				if ($routeParams.playerId == 'new') {
 					$location.path('/PlayerDetails/' + response.data);
 				}
 			}, function failed(response) {

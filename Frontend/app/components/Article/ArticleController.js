@@ -5,7 +5,11 @@ var app = angular.module('LeagueManager');
 app.controller('ArticlesCtrl', function ($scope, $http, SettingsService) {
 	var tableName = 'article';
 	// TODO: perhaps only first entries + '?order=id&page=1,2'
-	$http.get(SettingsService.backPrefix + tableName + '?order=created,desc').then(function (spielerResponse) {
+	var url = SettingsService.backPrefix + tableName 
+		+ '?order=created,desc'
+		+ '&filter=team_id,isnull';
+
+	$http.get(url).then(function (spielerResponse) {
 		$scope.articles = php_crud_api_transform(spielerResponse.data)[SettingsService.tablePrefix + tableName];
 	});
 });
@@ -18,9 +22,13 @@ app.controller('DeleteArticleCtrl', function ($scope, $location, $routeParams, $
 	});
 });
 
-app.controller('EditArticleCtrl', function ($q, $scope, $location, $routeParams, $http, SettingsService) {
+app.controller('EditArticleCtrl', function ($q, $scope, $location, $routeParams, $http, DataService, SettingsService) {
 	$scope.$on("ckeditor.ready", function (event) {
 		$scope.isReady = true;
+	});
+
+	DataService.getTeams(false).then(function (teams) {
+		$scope.teams = teams;
 	});
 
 	var url = SettingsService.backPrefix + 'article';
@@ -46,8 +54,12 @@ app.controller('EditArticleCtrl', function ($q, $scope, $location, $routeParams,
 			setTimeout(function () { directP.resolve(true); }, 0);
 			return directP;
 		}
-
+		
 		var data = { 'id': $scope.article.id, 'title': $scope.article.title };
+		data.team_id = $scope.article.team_id;
+		if (SettingsService.teamId != null) {
+			data.team_id = SettingsService.teamId;
+		}
 
 		if ($scope.frm.editor.$dirty) {
 			data.content = $scope.editorContent;

@@ -19,7 +19,11 @@ app.controller('LoginCtrl', function ($scope, $location, $http, UserService) {
 	};
 });
 
-app.controller('UserCtrl', function ($scope, $routeParams, $http, UserService, SettingsService) {
+app.controller('UserCtrl', function ($scope, $routeParams, $http, DataService, UserService, SettingsService) {
+
+	DataService.getTeams(false).then(function (teams) {
+		$scope.teams = teams;
+	});
 
 	var url = SettingsService.backPrefix + 'users';
 	var method = 'POST';
@@ -43,15 +47,44 @@ app.controller('UserCtrl', function ($scope, $routeParams, $http, UserService, S
 			return directP;
 		}
 
-		var data = $scope.player;
+		var data = $scope.user;
 
 		return $http({ "method": method, "url": url, "data": data })
 			.then(function success(response) {
-				if ($routeParams.articleId == 'new') {
-					$location.path('/PlayerDetails/' + response.data);
+				if ($routeParams.userId == 'new') {
+					$location.path('/User/' + response.data);
 				}
 			}, function failed(response) {
 				$scope.error = response.statusText + ": " + response.data;
 			});
 	}
 });
+
+app.controller('UsersCtrl', function ($scope, $http, SettingsService, DataService) {
+	var url = SettingsService.backPrefix + 'users';
+
+	$http.get(url).then(function (usersReps) {
+		var users = php_crud_api_transform(usersReps.data)[SettingsService.tablePrefix + 'users'];
+
+		DataService.getTeams(true).then(function (teamsMap) {
+			for (var i = 0; i < users.length; i++)
+			{
+				var user = users[i];
+				user.team = teamsMap[user.id_team];
+			}
+			$scope.users = users;
+			$scope.predicate = 'firstname';
+			$scope.reverse = true;
+			$scope.order = function (predicate) {
+				$scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
+				$scope.predicate = predicate;
+			}
+		});
+		
+
+
+
+		
+	});
+});
+

@@ -26,6 +26,8 @@
 					<li><a href="#/Matches">Spiele</a></li>
 					<li><a href="#/Player/RankSaison">Torjäger</a></li>
 					<li><a href="#/Player/RankHistory">Ewige Liste</a></li>
+
+					<li ng-show="hasRight('userManagement')"><a href="#/Users">Benutzer</a></li>
 					<!--
 					<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
@@ -66,12 +68,13 @@
 
 	</footer>
 
-	<script src="assets/libs/php_crud_api_transform.js"></script>
 	<script src="bower_components/jquery/dist/jquery.min.js"></script>
 	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-route.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-sanitize.js"></script>
+	<script src="bower_components/angular/angular.min.js"></script>
+	<script src="bower_components/angular-route/angular-route.min.js"></script>
+	<script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+
+	<script src="assets/libs/php_crud_api_transform.js"></script>
 	<script src="assets/libs/ckeditor/ckeditor.js"></script>
 	<script src="assets/libs/ng-ckeditor.min.js"></script>
 

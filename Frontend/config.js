@@ -5,16 +5,18 @@ app.factory('SettingsService', function ($rootScope) {
 	
 	$rootScope.title = "Kreisliga Borken";
 	$rootScope.sites = [];
+	$rootScope.teamId = null;
 
-	$rootScope.title = "Holthausener Sportverein";
-	$rootScope.sites = [{ id: 'History', 'title': "Geschichte" }];
+	//$rootScope.title = "Holthausener Sportverein";
+	//$rootScope.sites = [{ id: 'History', 'title': "Geschichte" }];
+	//$rootScope.teamId = 3;
 
 	var tableP = 'lm_';
 	var backendPath = '../backend/';
 	var backend = backendPath + 'data.php/';
 
 	var service = {
-		'teamId': null,
+		'teamId': $rootScope.teamId,
 		'backend': backend,
 		'tablePrefix': tableP,
 		'backPrefix': backend + tableP,

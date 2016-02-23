@@ -1,0 +1,39 @@
+﻿<h2>Benutzer</h2>
+<form>
+	<input type="text" class="form-control" ng-model="search" placeholder="Suche">
+	<p ng-show="search">Du suchst gerade nach: {{search}}</p>
+</form>
+<p ng-show="hasRight('editMasterData')">
+	<a href="#/User/new">Neuer Benutzer</a>
+</p>
+<table class="table" ng-controller="UsersCtrl">
+	<tr>
+		<th>
+			<a href="" ng-click="order('username')">Benutzername</a>
+			<span class="sortorder" ng-show="predicate === 'username'" ng-class="{reverse:reverse}"></span>
+		</th>
+		<th>
+			<a href="" ng-click="order('firstname')">Vorname</a>
+			<span class="sortorder" ng-show="predicate === 'firstname'" ng-class="{reverse:reverse}"></span>
+		</th>
+		<th>
+			<a href="" ng-click="order('lastname')">Nachname</a>
+			<span class="sortorder" ng-show="predicate === 'lastname'" ng-class="{reverse:reverse}"></span>
+		</th>
+		<th>
+			<a href="" ng-click="order('team.name')">Mannschaft</a>
+			<span class="sortorder" ng-show="predicate === 'team.name'" ng-class="{reverse:reverse}"></span>
+		</th>
+		<th>
+			<a href="" ng-click="order('rights')">Rechte</a>
+			<span class="sortorder" ng-show="predicate === 'rights'" ng-class="{reverse:reverse}"></span>
+		</th>
+	</tr>
+	<tr ng-repeat="u in users | filter: search | orderBy:predicate:reverse">
+		<td><a href="#/User/{{u.id}}"><span class="glyphicon glyphicon-edit"></span></a> {{u.username}}</td>
+		<td>{{u.firstname}}</td>
+		<td>{{u.lastname}}</td>
+		<td>{{u.team.name}}</td>
+		<td>{{u.rights}}</td>
+	</tr>
+</table>
