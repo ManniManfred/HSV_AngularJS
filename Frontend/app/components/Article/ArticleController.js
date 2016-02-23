@@ -7,7 +7,10 @@ app.controller('ArticlesCtrl', function ($scope, $http, SettingsService) {
 	// TODO: perhaps only first entries + '?order=id&page=1,2'
 	var url = SettingsService.backPrefix + tableName 
 		+ '?order=created,desc'
-		+ '&filter=team_id,isnull';
+	if (SettingsService.teamId == null)
+		url += '&filter=team_id,isnull';
+	else
+		url += '&filter=team_id,eq,' + SettingsService.teamId;
 
 	$http.get(url).then(function (spielerResponse) {
 		$scope.articles = php_crud_api_transform(spielerResponse.data)[SettingsService.tablePrefix + tableName];
