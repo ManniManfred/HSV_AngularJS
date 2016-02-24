@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 var app = angular.module('LeagueManager');
 
@@ -26,9 +26,18 @@ app.controller('PlayerCtrl', function ($scope, $http, DataService) {
 			$scope.predicate = predicate;
 		}
 	});
+
+	$scope.deletePlayer = function(player) {
+		if (confirm("Sind Sie sicher, dass der Spieler \"" + player.firstname + " " + player.lastname + "\" gelöscht werden soll?")) {
+			DataService.deletePlayer(player).then(function (deleteResult) {
+				if (!deleteResult)
+					alert("Das Löschen ist fehlgeschlagen.");
+			});
+		}
+	}
 });
 
-app.controller('PlayerDetailsCtrl', function ($scope, $routeParams, $http, SettingsService) {
+app.controller('PlayerDetailsCtrl', function ($scope, $location, $routeParams, $http, DataService, SettingsService) {
 
 	var url = SettingsService.backPrefix + 'player';
 	var method = 'POST';
@@ -40,6 +49,8 @@ app.controller('PlayerDetailsCtrl', function ($scope, $routeParams, $http, Setti
 		$http.get(url).then(function (resp) {
 			$scope.player = resp.data;
 		});
+	} else {
+		$scope.player = { 'id_team': SettingsService.teamId };
 	}
 
 	$scope.save = function () {
@@ -56,8 +67,14 @@ app.controller('PlayerDetailsCtrl', function ($scope, $routeParams, $http, Setti
 
 		return $http({ "method": method, "url": url, "data": data })
 			.then(function success(response) {
+				$scope.error = null;
 				if ($routeParams.playerId == 'new') {
-					$location.path('/PlayerDetails/' + response.data);
+					if (!response.data)
+						$scope.error = 'Das Anlegen diesen neuen Spielers ist fehlgeschlagen';
+					else {
+						DataService.clearPlayerCache();
+						$location.path('/Player/Details/' + response.data);
+					}
 				}
 			}, function failed(response) {
 				$scope.error = response.statusText + ": " + response.data;

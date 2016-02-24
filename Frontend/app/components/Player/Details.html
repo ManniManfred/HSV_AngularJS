@@ -1,4 +1,7 @@
 <h2>{{player.firstname}} {{player.lastname}}</h2>
+<div ng-show="error != null" class="alert alert-danger" role="alert">
+	<strong>{{error}}</strong>
+</div>
 <img src="assets/img/spieler/{{player | imageName}}.jpg" alt="{{player.name}}">
 <form name="frm">
 	<table class="vertTable">

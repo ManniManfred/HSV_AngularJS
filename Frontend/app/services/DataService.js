@@ -78,8 +78,39 @@ app.factory('DataService', function ($q, $http, $rootScope, SettingsService) {
 			}
 
 			var defer = $q.defer();
-			setTimeout(function () { defer.resolve(asMap ? playersMap : playersArr); }, 100);
+			setTimeout(function () { defer.resolve(asMap ? playersMap : playersArr); }, 0);
 			return defer.promise;
+		},
+		_getPlayerIndexOf: function (player) {
+			if (playersArr != null) {
+				for (var i = 0; i < playersArr.length; i++) {
+					if (player == playersArr[i])
+						return i;
+				}
+			}
+			return -1;
+		},
+		clearPlayerCache: function() {
+			playersMap = null;
+			playersArr = null;
+		},
+		deletePlayer: function (player) {
+			var url = SettingsService.backPrefix + 'player' + '/' + player.id;
+			return $http.delete(url).then(function (deleteResult) {
+				if (deleteResult.data != 1)
+					return false;
+
+				if (playersMap != null) {
+					// remove from map
+					delete playersMap[player.id];
+
+					// remove from arr
+					var idx = service._getPlayerIndexOf(player);
+					if (idx >= 0)
+						playersArr.splice(idx, 1);
+				}
+				return true;
+			});
 		}
 	};
 
