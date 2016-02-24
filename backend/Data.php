@@ -36,14 +36,13 @@ $isAllowedTableFunction = function($cmd, $db, $tab)
     return false;
 };
 
-$api = new MySQL_CRUD_API(array(
-   'hostname'=>$_ENV["db_server"],
+$api = new MySQL_CRUD_API(['hostname'=>$_ENV["db_server"],
    'username'=>$_ENV["db_user"],
    'password'=>$_ENV["db_password"],
    'database'=>$_ENV["db_catalog"],
    'charset'=>'utf8',
    'table_authorizer' => $isAllowedTableFunction
-));
+  ]);
 $api->executeCommand();
  
 //$_ENV["table_prefix"]
