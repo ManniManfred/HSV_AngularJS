@@ -2,3 +2,4 @@ angularjs-tutorial-code
 ckeditor
 .vs
 *.bak
+/nbproject/private/

@@ -1,17 +1,25 @@
 'use strict';
 
+function changeSelectedSaison(saison) {
+	alert("s: " + saison);
+}
+
 var app = angular.module('LeagueManager', ['ngRoute', 'ngSanitize', 'ngCkeditor']);
 
 app.run(function ($rootScope, UserService, DataService, SettingsService) {
+	$rootScope.changeSaison = function (saison) {
+		$rootScope.selectedSaison = saison;
+	}
 
 	DataService.getSaisons().then(function (saisons) {
 		$rootScope.saisons = saisons;
 	}).then(function () {
 		DataService.getDefaultSaison().then(function (defaultSaison) {
-			$rootScope.selectedSaisonId = defaultSaison.id;
+			$rootScope.selectedSaison = defaultSaison;
 		});
 	});
 
+	
 });
 
 app.config(function ($routeProvider) {

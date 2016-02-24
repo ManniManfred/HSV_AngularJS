@@ -1,16 +1,16 @@
-<h2>Neuigkeitendfd sd</h2>
+<h2>Neuigkeiten</h2>
 
 <div class="container" ng-controller="ArticlesCtrl">
 	<div>
-		<a ng-show="hasRight('createArticle')" href="#/EditArticle/new">Neuer Beitrag</a>
+		<a ng-show="hasRight('createArticle')" href="#/EditArticle/new"><span class="glyphicon glyphicon-pencil"></span>Neuer Beitrag</a>
 	</div>
 	<div ng-repeat="art in articles">
 		<div class="article">
 			<h2>{{art.title}}</h2>
 			<p ng-bind-html="art.content"></p>
 
-			<a ng-show="hasRight('editArticle')" href="#/EditArticle/{{art.id}}">Bearbeiten</a>
-			<a ng-show="hasRight('deleteRight')" href="#/DeleteArticle/{{art.id}}">L&ouml;schen</a>
+			<a ng-show="hasRight('editArticle')" href="#/EditArticle/{{art.id}}"><span class="glyphicon glyphicon-edit"></span>Bearbeiten</a>
+			<a ng-show="hasRight('deleteRight')" href="#/DeleteArticle/{{art.id}}"><span class="glyphicon glyphicon-remove"></span>L&ouml;schen</a>
 		</div>
 	</div>
 </div>

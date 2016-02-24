@@ -27,16 +27,14 @@
 					<li><a href="#/Player/RankSaison">Torjäger</a></li>
 					
 					<li ng-show="hasRight('userManagement')"><a href="#/Users">Benutzer</a></li>
-					<!--
+					
 					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
+						<a href class="dropdown-toggle" data-toggle="dropdown">Saison {{selectedSaison.name}} <span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="#">Page 1-1</a></li>
-							<li><a href="#">Page 1-2</a></li>
-							<li><a href="#">Page 1-3</a></li>
+							<li ng-repeat="s in saisons"><a href ng-click="changeSaison(s)">{{s.name}}</a></li>
 						</ul>
 					</li>
-					-->
+					
 				</ul>
 				<!-- 
 				<select ng-model="selectedSaisonId" ng-options="s.id as s.name for s in saisons">
