@@ -1,4 +1,4 @@
-<h2>Ewige Liste</h2>
+<h2>{{rankTitle}}</h2>
 <form>
 	<input type="text" class="form-control" ng-model="search" placeholder="Suche">
 	<p ng-show="search">Du suchst gerade nach: {{search}}</p>
@@ -7,7 +7,7 @@
 <p ng-show="hasRight('editMasterData')">
 	<a href="#/Player/Details/new"><span class="glyphicon glyphicon-pencil"></span>Neuer Spieler</a>
 </p>
-<table class="table" ng-controller="PlayerCtrl">
+<table class="table">
 	<tr>
 		<th>
 			<a href="" ng-click="order('firstname')">Vorname</a>
@@ -21,7 +21,7 @@
 			<a href="" ng-click="order('team_id')">Mannschaft</a>
 			<span class="sortorder" ng-show="predicate === 'team_id'" ng-class="{reverse:reverse}"></span>
 		</th>
-		<th>
+		<th ng-show="!isSaison">
 			<a href="" ng-click="order('count_games')">Spiele</a>
 			<span class="sortorder" ng-show="predicate === 'count_games'" ng-class="{reverse:reverse}"></span>
 		</th>
@@ -32,12 +32,12 @@
 	</tr>
 	<tr ng-repeat="p in player | filter: search | orderBy:predicate:reverse">
 		<td>
-			<a ng-click="deletePlayer(p)" href><span class="glyphicon glyphicon-remove" style="color:red"></span></a>
+			<a ng-show="hasRight('editMasterData')" ng-click="deletePlayer(p)" href><span class="glyphicon glyphicon-remove" style="color:red"></span></a>
 			<a href="#/Player/Details/{{p.id}}">{{p.firstname}}</a>
 		</td>
 		<td><a href="#/Player/Details/{{p.id}}">{{p.lastname}}</a></td>
 		<td ng-show="teamId == null">{{p.team.name}}</td>
-		<td>{{p.count_games}}</td>
+		<td ng-show="!isSaison">{{p.count_games}}</td>
 		<td>{{p.count_goals}}</td>
 	</tr>
 </table>

@@ -2,8 +2,11 @@
 
 var app = angular.module('LeagueManager');
 
-app.controller('MatchesCtrl', function ($scope, $http, SettingsService) {
+app.controller('MatchesCtrl', function ($root, $rootScope, $http, SettingsService) {
 	var url = SettingsService.backPrefix + 'matches';
+
+	url += "?filter=saison_id,eq," + $rootScope.selectedSaison.id;
+
 	if (SettingsService.teamId != null)
 		url += '?satisfy=any&filter[]=team1_id,eq,' + SettingsService.teamId + '&filter[]=team2_id,eq,' + SettingsService.teamId;
 

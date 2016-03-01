@@ -1,9 +1,5 @@
 'use strict';
 
-function changeSelectedSaison(saison) {
-	alert("s: " + saison);
-}
-
 var app = angular.module('LeagueManager', ['ngRoute', 'ngSanitize', 'ngCkeditor']);
 
 app.run(function ($rootScope, UserService, DataService, SettingsService) {
@@ -29,8 +25,8 @@ app.config(function ($routeProvider) {
 		.when('/Articles', { templateUrl: 'app/components/Article/Articles.html' })
 		.when('/EditArticle/:articleId', { templateUrl: 'app/components/Article/EditArticle.html', controller: 'EditArticleCtrl' })
 		.when('/DeleteArticle/:articleId', { template: 'Beitrag wird gel&ouml;scht...', controller: 'DeleteArticleCtrl' })
-		.when('/Player/RankSaison', { templateUrl: 'app/components/Player/RankSaison.html' })
-		.when('/Player/RankHistory', { templateUrl: 'app/components/Player/RankHistory.html' })
+		.when('/Player/RankSaison', { templateUrl: 'app/components/Player/Rank.html', controller: 'PlayerSaisonCtrl' })
+		.when('/Player/RankHistory', { templateUrl: 'app/components/Player/Rank.html', controller: 'PlayerCtrl' })
 		.when('/Player/Details/:playerId', { templateUrl: 'app/components/Player/Details.html', controller: 'PlayerDetailsCtrl' })
 		.when('/Matches', { templateUrl: 'app/components/Match/Matches.html' })
 		.when('/MatchDetails/:matchId', { templateUrl: 'app/components/Match/MatchDetails.html', controller: 'MatchDetailsCtrl' })

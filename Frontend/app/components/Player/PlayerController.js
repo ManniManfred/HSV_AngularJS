@@ -2,20 +2,72 @@
 
 var app = angular.module('LeagueManager');
 
-app.controller('PlayerSaisonCtrl', function ($scope, $http, DataService) {
-	var promisePlayer = DataService.getPlayer();
-	promisePlayer.then(function (player) {
-		$scope.player = player;
-		$scope.predicate = 'count_goals';
-		$scope.reverse = true;
-		$scope.order = function (predicate) {
-			$scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
-			$scope.predicate = predicate;
+app.controller('PlayerSaisonCtrl', function ($q, $scope, $rootScope, $http, DataService, SettingsService) {
+
+	$scope.rankTitle = 'Torjäger';
+	$scope.isSaison = true;
+	
+	var loadTable = function () {
+		if ($rootScope.selectedSaison == null)
+			return;
+
+		$scope.rankTitle = 'Torjäger der Saison ' + $rootScope.selectedSaison.name;
+
+		var url = SettingsService.backPrefix + 'scorer';
+		url += "?satisfy=all&filter[]=id_saison,eq," + $rootScope.selectedSaison.id
+		if (SettingsService.teamId != null)
+			url += '&filter[]=id_team,eq,' + SettingsService.teamId;
+
+		var playerPromise = $http.get(url).then(function (spielerResponse) {
+			return php_crud_api_transform(spielerResponse.data)[SettingsService.tablePrefix + "scorer"];
+		});
+		var teamPromise = DataService.getTeams(true);
+		$q.all([playerPromise, teamPromise]).then(function (results) {
+
+			var playersArr = results[0];
+			var teamsMap = results[1];
+			var playerFiltered = [];
+
+			for (var i = 0; i < playersArr.length; i++) {
+				var curPla = playersArr[i];
+				curPla.team = teamsMap[curPla.id_team];
+
+				// workaround to use same view for hist and saison
+				curPla.count_goals = curPla.goals == null ? 0 : curPla.goals;
+				if (curPla.goals != null && curPla.count_goals != 0)
+					playerFiltered.push(curPla);
+			}
+
+			$scope.player = playerFiltered;
+			$scope.predicate = 'count_goals';
+			$scope.reverse = true;
+			$scope.order = function (predicate) {
+				$scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
+				$scope.predicate = predicate;
+			}
+		});
+	}
+
+	$rootScope.$watch('selectedSaison', loadTable);
+
+	if ($rootScope.selectedSaison != null)
+		loadTable();
+
+	$scope.deletePlayer = function (player) {
+		if (confirm("Sind Sie sicher, dass der Spieler \"" + player.firstname + " " + player.lastname + "\" gelöscht werden soll?")) {
+			DataService.deletePlayer(player).then(function (deleteResult) {
+				if (!deleteResult)
+					alert("Das Löschen ist fehlgeschlagen.");
+			});
 		}
-	});
+	}
 });
 
 app.controller('PlayerCtrl', function ($scope, $http, DataService) {
+
+	$scope.rankTitle = 'Ewige Liste';
+	$scope.isSaison = false;
+	
 	var promisePlayer = DataService.getPlayer();
 	promisePlayer.then(function (player) {
 		$scope.player = player;
