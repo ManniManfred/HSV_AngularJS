@@ -28,7 +28,7 @@ app.config(function ($routeProvider) {
 		.when('/Player/RankSaison', { templateUrl: 'app/components/Player/Rank.html', controller: 'PlayerSaisonCtrl' })
 		.when('/Player/RankHistory', { templateUrl: 'app/components/Player/Rank.html', controller: 'PlayerCtrl' })
 		.when('/Player/Details/:playerId', { templateUrl: 'app/components/Player/Details.html', controller: 'PlayerDetailsCtrl' })
-		.when('/Matches', { templateUrl: 'app/components/Match/Matches.html' })
+		.when('/Matches', { templateUrl: 'app/components/Match/Matches.html', controller: 'MatchesCtrl' })
 		.when('/MatchDetails/:matchId', { templateUrl: 'app/components/Match/MatchDetails.html', controller: 'MatchDetailsCtrl' })
 		.when('/Impressum', { templateUrl: 'app/components/HSV/Impressum.html' })
 		.when('/Users', { templateUrl: 'app/components/Auth/Users.html', controller: 'UsersCtrl' })

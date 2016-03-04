@@ -18,3 +18,16 @@ app.filter('dateTime', function ($filter) {
 		return $filter('date')(new Date(input), 'dd.MM.yyyy HH:mm');
 	};
 });
+
+app.filter('matchType', function () {
+	return function (input) {
+		if (input == null)
+			return "Unbekannt";
+		if (input == 'TOURNAMENT')
+			return 'Saison';
+		if (input == 'FRIEND')
+			return 'Freundschaftsspiel';
+
+		return input;
+	};
+});

@@ -31,7 +31,7 @@ app.factory('UserService', function ($http, $rootScope, SettingsService) {
 		}
 	};
 
-	$rootScope.hasRight = function (neededRight) {
+	$rootScope.hasRight = function (neededRight, specialObj) {
 		if ($rootScope.currentUser == null)
 			return false;
 
@@ -39,6 +39,12 @@ app.factory('UserService', function ($http, $rootScope, SettingsService) {
 			|| neededRight == "deleteRight"
 			|| neededRight == "editMasterData"
 			|| neededRight == "userManagement") {
+			return $rootScope.currentUser.rights == 'ADMIN';
+		}
+
+		if (neededRight == 'editMatch') {
+			// TODO: check specialObj for match right
+			//specialObj
 			return $rootScope.currentUser.rights == 'ADMIN';
 		}
 		return false;

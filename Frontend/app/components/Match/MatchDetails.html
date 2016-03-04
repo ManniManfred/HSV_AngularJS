@@ -1,50 +1,37 @@
-<h2>{{m.team1_name}} <b>vs</b> {{m.team2_name}} {{m.goal1}} : {{m.goal2}}</h2>
+<div ng-show="error != null" class="alert alert-danger" role="alert">
+	<strong>{{error}}</strong>
+</div>
 
-
-<form name="frm">
-	<p><b>Datum: </b>{{m.date | dateTime}}</p>
-	
-	<table class="vertTable">
-		<tr ng-show="hasRight('editMasterData')">
-			<th>Mannschaft 1</th>
-			<td>
-				<input class="form-control" type="text" ng-model="m.team1" />
-			</td>
-		</tr>
-		<tr ng-show="hasRight('editMasterData')">
-			<th>Mannschaft 2</th>
-			<td>
-				<input class="form-control" type="text" ng-model="m.team2" />
-			</td>
-		</tr>
-		<tr>
-			<th>Spitzname</th>
-			<td>
-				<div ng-show="!hasRight('editMasterData')">{{player.nickname}}</div>
-				<input class="form-control" ng-show="hasRight('editMasterData')" type="text" ng-model="player.nickname" />
-			</td>
-		</tr>
-		<tr>
-			<th colspan="2">
-				<h3>Basisdaten (bis 2012)</h3>
-			</th>
-		</tr>
-		<tr>
-			<th>Spiele</th>
-			<td>
-				<div ng-show="!hasRight('editMasterData')">{{player.count_games}}</div>
-				<input class="form-control" ng-show="hasRight('editMasterData')" type="text" ng-model="player.count_games" />
-			</td>
-		</tr>
-		<tr>
-			<th>Tore</th>
-			<td>
-				<div ng-show="!hasRight('editMasterData')">{{player.count_goals}}</div>
-				<input class="form-control" ng-show="hasRight('editMasterData')" type="text" ng-model="player.count_goals" />
-			</td>
-		</tr>
-	</table>
-
+<div ng-show="!hasRight('editMatch', m)">
+	<h2>{{m.team1_name}} <b>vs</b> {{m.team2_name}} {{m.goal1}} : {{m.goal2}}</h2>
 	<h3 ng-show="!!m.description">Beschreibung</h3>
 	<p ng-bind-html="m.description"></p>
+</div>
+
+<form name="frm" ng-show="hasRight('editMatch', m)">
+	<p>
+		<select class="form-control" ng-model="m.id_saison_team1" ng-options="st.id as st.name for st in saisonTeams"></select>
+		<b>vs</b>
+		<select class="form-control" ng-model="m.id_saison_team2" ng-options="st.id as st.name for st in saisonTeams"></select>
+		
+		<input class="form-control" type="text" ng-model="m.goals1" />
+		<b>:</b>
+		<input class="form-control" type="text" ng-model="m.goals2" />
+	</p>
+
+	<div ng-cloak ng-hide="isReady" class="highlight">
+		Initialising ...
+	</div>
+
+	<div ng-cloak ng-show="isReady">
+		<textarea ckeditor="editorOptions" name="editor" ng-model="m.description"></textarea>
+	</div>
+
+	<p>
+		<button class="btn btn-default" ng-click="saveAndClose()">Speichern und Schlie&szlig;en</button>
+		<button class="btn btn-default" ng-click="save()">Speichern</button>
+		<button class="btn btn-default" onclick="window.history.back();">Zur&uuml;ck</button>
+	</p>
 </form>
+
+
