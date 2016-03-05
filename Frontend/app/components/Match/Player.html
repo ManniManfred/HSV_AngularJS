@@ -32,11 +32,11 @@
 		</tr>
 		<tr ng-repeat="p in playerTeam[number] | filter: searchPlayer | orderBy: 'firstname'">
 			<td>{{p.firstname}} {{p.lastname}}</td>
-			<td><input class="col-xs-1" type="checkbox" ng-model="p.checked" class="form-control" /></td>
-			<td><input class="form-control" type="text" ng-model="p.goals" /></td>
-			<td><input type="checkbox" ng-model="p.hasYellowCard" class="form-control" /></td>
-			<td><input type="checkbox" ng-model="p.hasYellowRedCard" class="form-control" /></td>
-			<td><input type="checkbox" ng-model="p.hasRedCard" class="form-control" /></td>
+			<td><input class="form-control" type="checkbox" ng-model="p.checked" /></td>
+			<td><input class="form-control" ng-disabled="!p.checked" type="text" ng-model="p.goals" size="1" /></td>
+			<td><input class="form-control" ng-disabled="!p.checked" type="checkbox" ng-model="p.hasYellowCard"  /></td>
+			<td><input class="form-control" ng-disabled="!p.checked" type="checkbox" ng-model="p.hasYellowRedCard" /></td>
+			<td><input class="form-control" ng-disabled="!p.checked" type="checkbox" ng-model="p.hasRedCard" /></td>
 		</tr>
 	</table>
 </div>

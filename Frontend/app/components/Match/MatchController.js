@@ -89,30 +89,20 @@ app.controller('MatchDetailsCtrl', function ($q, $filter, $scope, $rootScope, $r
 	if ($rootScope.selectedSaison != null)
 		loadSaisonTeams();
 
-	var loadPlayer1 = function() {
-		var st1 = $scope.saisonTeamsMap[$scope.m.id_saison_team1]
-		if (st1 == null)
+	var loadPlayer = function (number) {
+		var st = $scope.saisonTeamsMap[$scope.m['id_saison_team' + (number + 1)]];
+		if (st == null)
 			return;
 
 		DataService.getPlayer().then(function (player) {
-			$scope.playerTeam[0] = $filter('filter')(player, { 'id_team': st1.id_team });
+			$scope.playerTeam[number] = $filter('filter')(player, { 'id_team': st.id_team });
 		});
 	};
 
-	var loadPlayer2 = function () {
-		var st2 = $scope.saisonTeamsMap[$scope.m.id_saison_team2]
-		if (st2 == null)
-			return;
-
-		DataService.getPlayer().then(function (player) {
-			$scope.playerTeam[1] = $filter('filter')(player, { 'id_team': st2.id_team });
-		});
-	};
-
-	$scope.$watch('saisonTeamsMap', function () { loadPlayer1(); loadPlayer2(); });
-	$scope.$watch('m', function () { loadPlayer1(); loadPlayer2(); });
-	$scope.$watch('m.id_saison_team1', loadPlayer1);
-	$scope.$watch('m.id_saison_team2', loadPlayer2);
+	$scope.$watch('saisonTeamsMap', function () { loadPlayer(0); loadPlayer(1); });
+	$scope.$watch('m', function () { loadPlayer(0); loadPlayer(1); });
+	$scope.$watch('m.id_saison_team1', function () { loadPlayer(0); });
+	$scope.$watch('m.id_saison_team2', function () { loadPlayer(1); });
 
 
 	$scope.save = function () {
