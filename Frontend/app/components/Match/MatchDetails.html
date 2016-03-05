@@ -3,7 +3,7 @@
 </div>
 
 <div ng-show="!hasRight('editMatch', m)">
-	<h2>{{m.team1_name}} <b>vs</b> {{m.team2_name}} {{m.goal1}} : {{m.goal2}}</h2>
+	<h2>{{saisonTeamsMap[m.id_saison_team1].team.name}} <b>vs</b> {{saisonTeamsMap[m.id_saison_team2].team.name}} {{m.goal1}} : {{m.goal2}}</h2>
 	<p>{{m.type | matchTypeLong}}</p>
 	<h3 ng-show="!!m.description">Beschreibung</h3>
 	<p ng-bind-html="m.description"></p>
@@ -21,13 +21,13 @@
 			<select class="form-control" ng-model="m.id_saison_team2" ng-options="st.id as st.team.name for st in saisonTeams"></select>
 		</div>
 		<div class="col-xs-2">
-			<input class="form-control" type="text" ng-model="m.goals1" size="3" />
+			<input class="form-control" type="text" ng-model="m.goals1" />
 		</div>
 		<div class="col-xs-1">
 			<b>:</b>
 		</div>
 		<div class="col-xs-2">
-			<input class="form-control" type="text" ng-model="m.goals2" size="3" />
+			<input class="form-control" type="text" ng-model="m.goals2" />
 		</div>
 	</p>
 	<p>
@@ -41,8 +41,14 @@
 	<div ng-cloak ng-show="isReady">
 		<textarea ckeditor="editorOptions" name="editor" ng-model="m.description"></textarea>
 	</div>
-	
+
 	<p>&nbsp;</p>
+
+
+	<div ng-include="'app/components/Match/Player.html'" ng-controller="MatchPlayers1Ctrl"></div>
+
+
+	<div ng-include="'app/components/Match/Player.html'" ng-controller="MatchPlayers2Ctrl"></div>
 
 	<p>
 		<button class="btn btn-default" ng-click="saveAndClose()">Speichern und Schlie&szlig;en</button>

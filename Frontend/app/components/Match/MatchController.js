@@ -43,7 +43,7 @@ app.controller('MatchesCtrl', function ($scope, $rootScope, $http, SettingsServi
 		loadTable();
 });
 
-app.controller('MatchDetailsCtrl', function ($q, $scope, $rootScope, $routeParams, $http, SettingsService, DataService) {
+app.controller('MatchDetailsCtrl', function ($q, $filter, $scope, $rootScope, $routeParams, $http, SettingsService, DataService) {
 	$scope.$on("ckeditor.ready", function (event) {
 		$scope.isReady = true;
 	});
@@ -52,6 +52,12 @@ app.controller('MatchDetailsCtrl', function ($q, $scope, $rootScope, $routeParam
 		$scope.m = php_crud_api_transform(matchResp.data)[SettingsService.tablePrefix + 'match'][0];
 	});
 	
+	$scope.saisonTeamsMap = {};
+	$scope.m = {};
+	$scope.playerTeam = [];
+	$scope.playerTeam[0] = [];
+	$scope.playerTeam[1] = [];
+
 	var loadSaisonTeams = function () {
 		if ($rootScope.selectedSaison == null)
 			return;
@@ -66,11 +72,15 @@ app.controller('MatchDetailsCtrl', function ($q, $scope, $rootScope, $routeParam
 			var teams = results[1];
 
 			var saisonTeams = php_crud_api_transform(results[0].data)[SettingsService.tablePrefix + 'saison_team'];
-			
+			var saisonTeamsMap = {};
+
 			for (var i = 0; i < saisonTeams.length; i++) {
-				saisonTeams[i].team = teams[saisonTeams[i].id_team];
+				var st = saisonTeams[i];
+				st.team = teams[st.id_team];
+				saisonTeamsMap[st.id] = st;
 			}
 			$scope.saisonTeams = saisonTeams;
+			$scope.saisonTeamsMap = saisonTeamsMap;
 		});
 	};
 
@@ -78,6 +88,31 @@ app.controller('MatchDetailsCtrl', function ($q, $scope, $rootScope, $routeParam
 
 	if ($rootScope.selectedSaison != null)
 		loadSaisonTeams();
+
+	var loadPlayer1 = function() {
+		var st1 = $scope.saisonTeamsMap[$scope.m.id_saison_team1]
+		if (st1 == null)
+			return;
+
+		DataService.getPlayer().then(function (player) {
+			$scope.playerTeam[0] = $filter('filter')(player, { 'id_team': st1.id_team });
+		});
+	};
+
+	var loadPlayer2 = function () {
+		var st2 = $scope.saisonTeamsMap[$scope.m.id_saison_team2]
+		if (st2 == null)
+			return;
+
+		DataService.getPlayer().then(function (player) {
+			$scope.playerTeam[1] = $filter('filter')(player, { 'id_team': st2.id_team });
+		});
+	};
+
+	$scope.$watch('saisonTeamsMap', function () { loadPlayer1(); loadPlayer2(); });
+	$scope.$watch('m', function () { loadPlayer1(); loadPlayer2(); });
+	$scope.$watch('m.id_saison_team1', loadPlayer1);
+	$scope.$watch('m.id_saison_team2', loadPlayer2);
 
 
 	$scope.save = function () {
@@ -105,4 +140,21 @@ app.controller('MatchDetailsCtrl', function ($q, $scope, $rootScope, $routeParam
 				$scope.error = response.statusText + ": " + response.data;
 			});
 	}
+
+	$scope.getSaisonTeam = function (number) {
+		var result = null;
+		if ($scope.saisonTeamsMap != null && $scope.m != null)
+			result = $scope.saisonTeamsMap[$scope.m['id_saison_team' + (number + 1)]];
+
+		return result;
+	};
+});
+
+
+app.controller('MatchPlayers1Ctrl', function ($scope) {
+	$scope.number = 0;
+});
+
+app.controller('MatchPlayers2Ctrl', function ($scope) {
+	$scope.number = 1;
 });

@@ -1,0 +1,42 @@
+<!--
+	<p>
+		<div ng-repeat="p in playerTeam[number]">
+			<p><input type="checkbox" ng-model="p.checked" value="salami" />{{p.firstname}} {{p.lastname}}</p>
+		</div>
+	</p>
+-->
+
+<div ng-show="getSaisonTeam(number) != null">
+
+	<h2>{{getSaisonTeam(number).team.name}}</h2>
+
+	<form>
+		<input type="text" class="form-control" ng-model="searchPlayer" placeholder="Suche">
+		<p ng-show="search">Du suchst gerade nach: {{searchPlayer}}</p>
+	</form>
+
+	<!--
+	<p ng-show="hasRight('editMasterData')">
+		<a href="#/Player/Details/new/"><span class="glyphicon glyphicon-pencil"></span>Neuer Spieler</a>
+	</p>
+	-->
+
+	<table class="table">
+		<tr>
+			<th>Spieler</th>
+			<th>Gespielt</th>
+			<th>Tore</th>
+			<th><img src="assets/img/gelb.png" alt="gelb"/></th>
+			<th><img src="assets/img/gelbrot.png" alt="gelb rot"/></th>
+			<th><img src="assets/img/rot.png" alt="rot" /></th>
+		</tr>
+		<tr ng-repeat="p in playerTeam[number] | filter: searchPlayer | orderBy: 'firstname'">
+			<td>{{p.firstname}} {{p.lastname}}</td>
+			<td><input class="col-xs-1" type="checkbox" ng-model="p.checked" class="form-control" /></td>
+			<td><input class="form-control" type="text" ng-model="p.goals" /></td>
+			<td><input type="checkbox" ng-model="p.hasYellowCard" class="form-control" /></td>
+			<td><input type="checkbox" ng-model="p.hasYellowRedCard" class="form-control" /></td>
+			<td><input type="checkbox" ng-model="p.hasRedCard" class="form-control" /></td>
+		</tr>
+	</table>
+</div>

@@ -63,14 +63,18 @@ app.controller('PlayerSaisonCtrl', function ($q, $scope, $rootScope, $http, Data
 	}
 });
 
-app.controller('PlayerCtrl', function ($scope, $http, DataService) {
+app.controller('PlayerCtrl', function ($filter, $scope, $http, SettingsService, DataService) {
 
 	$scope.rankTitle = 'Ewige Liste';
 	$scope.isSaison = false;
 	
 	var promisePlayer = DataService.getPlayer();
 	promisePlayer.then(function (player) {
-		$scope.player = player;
+		if (SettingsService.teamId != null)
+			$scope.player = $filter('filter')(player, {'id_team': SettingsService.teamId });
+		else
+			$scope.player = player;
+		
 		$scope.predicate = 'count_goals';
 		$scope.reverse = true;
 		$scope.order = function (predicate) {

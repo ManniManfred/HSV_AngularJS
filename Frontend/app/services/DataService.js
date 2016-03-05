@@ -58,9 +58,7 @@ app.factory('DataService', function ($q, $http, $rootScope, SettingsService) {
 		getPlayer: function(asMap) {
 			if (playersMap == null) {
 				var url = SettingsService.backPrefix + 'player';
-				if (SettingsService.teamId != null)
-					url += '?filter=id_team,eq,' + SettingsService.teamId;
-			
+				
 				var playerPromise = $http.get(url).then(function (spielerResponse) {
 					return php_crud_api_transform(spielerResponse.data)[SettingsService.tablePrefix + "player"];
 				});
