@@ -4,21 +4,36 @@
 
 <div ng-show="!hasRight('editMatch', m)">
 	<h2>{{m.team1_name}} <b>vs</b> {{m.team2_name}} {{m.goal1}} : {{m.goal2}}</h2>
+	<p>{{m.type | matchTypeLong}}</p>
 	<h3 ng-show="!!m.description">Beschreibung</h3>
 	<p ng-bind-html="m.description"></p>
 </div>
 
 <form name="frm" ng-show="hasRight('editMatch', m)">
 	<p>
-		<select class="form-control" ng-model="m.id_saison_team1" ng-options="st.id as st.name for st in saisonTeams"></select>
-		<b>vs</b>
-		<select class="form-control" ng-model="m.id_saison_team2" ng-options="st.id as st.name for st in saisonTeams"></select>
-		
-		<input class="form-control" type="text" ng-model="m.goals1" />
-		<b>:</b>
-		<input class="form-control" type="text" ng-model="m.goals2" />
+		<div class="col-xs-3">
+			<select class="form-control" ng-model="m.id_saison_team1" ng-options="st.id as st.team.name for st in saisonTeams"></select>
+		</div>
+		<div class="col-xs-1">
+			<b>vs</b>
+		</div>
+		<div class="col-xs-3">
+			<select class="form-control" ng-model="m.id_saison_team2" ng-options="st.id as st.team.name for st in saisonTeams"></select>
+		</div>
+		<div class="col-xs-2">
+			<input class="form-control" type="text" ng-model="m.goals1" size="3" />
+		</div>
+		<div class="col-xs-1">
+			<b>:</b>
+		</div>
+		<div class="col-xs-2">
+			<input class="form-control" type="text" ng-model="m.goals2" size="3" />
+		</div>
 	</p>
-
+	<p>
+		<select class="form-control" ng-model="m.type" ng-options="st as (st | matchTypeLong) for st in ['TOURNAMENT', 'FRIEND']"></select>
+	</p>
+	<p>&nbsp;</p>
 	<div ng-cloak ng-hide="isReady" class="highlight">
 		Initialising ...
 	</div>
@@ -26,6 +41,8 @@
 	<div ng-cloak ng-show="isReady">
 		<textarea ckeditor="editorOptions" name="editor" ng-model="m.description"></textarea>
 	</div>
+	
+	<p>&nbsp;</p>
 
 	<p>
 		<button class="btn btn-default" ng-click="saveAndClose()">Speichern und Schlie&szlig;en</button>
