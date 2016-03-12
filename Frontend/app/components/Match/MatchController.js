@@ -136,6 +136,8 @@ app.controller('MatchDetailsCtrl', function ($q, $filter, $scope, $rootScope, $r
 
 		var match = JSON.parse(JSON.stringify($scope.m));
 		match.date = moment($scope.m.date, "DD.MM.YYYY HH:mm").format("YYYY-MM-DD HH:mm:ss");
+		match.goal1 = parseInt($scope.m.goal1);
+		match.goal2 = parseInt($scope.m.goal2);
 
 		return $http({ "method": method, "url": url, "data": match })
 			.then(function success(response) {
