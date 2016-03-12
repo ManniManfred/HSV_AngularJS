@@ -48,9 +48,20 @@ app.controller('MatchDetailsCtrl', function ($q, $filter, $scope, $rootScope, $r
 		$scope.isReady = true;
 	});
 
-	$http.get(SettingsService.backPrefix + 'match?filter=id,eq,' + $routeParams.matchId).then(function (matchResp) {
-		$scope.m = php_crud_api_transform(matchResp.data)[SettingsService.tablePrefix + 'match'][0];
-	});
+	var url = SettingsService.backPrefix + 'match';
+	var method = 'POST';
+
+	if ($routeParams.matchId != 'new') {
+		url += '/' + $routeParams.matchId;
+		method = 'PUT';
+
+		$http.get(url).then(function (matchResp) {
+			$scope.m = matchResp.data;
+		});
+	} else {
+		$scope.m = { 'date': new Date(), 'goal1': 0, 'goal2' : 0, 'type': 'TOURNAMENT' };
+	}
+
 	
 	$scope.saisonTeamsMap = {};
 	$scope.m = {};
@@ -104,6 +115,14 @@ app.controller('MatchDetailsCtrl', function ($q, $filter, $scope, $rootScope, $r
 	$scope.$watch('m.id_saison_team1', function () { loadPlayer(0); });
 	$scope.$watch('m.id_saison_team2', function () { loadPlayer(1); });
 
+	$scope.getSaisonTeam = function (number) {
+		var result = null;
+		if ($scope.saisonTeamsMap != null && $scope.m != null)
+			result = $scope.saisonTeamsMap[$scope.m['id_saison_team' + (number + 1)]];
+
+		return result;
+	};
+
 
 	$scope.save = function () {
 		//$scope.article.title = $scope.title;
@@ -118,26 +137,24 @@ app.controller('MatchDetailsCtrl', function ($q, $filter, $scope, $rootScope, $r
 		var match = $scope.m;
 
 		if ($scope.frm.editor.$dirty) {
-			data.content = $scope.editorContent;
+			match.description = $scope.editorContent;
 		}
 
-		return $http({ "method": method, "url": url, "data": data })
+		return $http({ "method": method, "url": url, "data": match })
 			.then(function success(response) {
-				if ($routeParams.articleId == 'new') {
-					$location.path('/EditArticle/' + response.data);
+				if ($routeParams.matchId == 'new') {
+					$location.path('/MatchDetails/' + response.data);
 				}
 			}, function failed(response) {
 				$scope.error = response.statusText + ": " + response.data;
 			});
 	}
 
-	$scope.getSaisonTeam = function (number) {
-		var result = null;
-		if ($scope.saisonTeamsMap != null && $scope.m != null)
-			result = $scope.saisonTeamsMap[$scope.m['id_saison_team' + (number + 1)]];
-
-		return result;
-	};
+	$scope.saveAndClose = function () {
+		$scope.save().then(function () {
+			window.history.back();
+		})
+	}
 });
 
 

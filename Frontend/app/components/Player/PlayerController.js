@@ -136,4 +136,10 @@ app.controller('PlayerDetailsCtrl', function ($scope, $location, $routeParams, $
 				$scope.error = response.statusText + ": " + response.data;
 			});
 	}
+
+	$scope.saveAndClose = function () {
+		$scope.save().then(function () {
+			window.history.back();
+		})
+	}
 });

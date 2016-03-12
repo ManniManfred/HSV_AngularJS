@@ -4,6 +4,10 @@
 	<p ng-show="search">Du suchst gerade nach: {{search}}</p>
 </form>
 
+<p ng-show="hasRight('editMasterData')">
+	<a href="#/MatchDetails/new"><span class="glyphicon glyphicon-plus"></span>Neues Spiel</a>
+</p>
+
 <table class="table">
 	<tr>
 		<th>

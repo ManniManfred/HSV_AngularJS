@@ -80,7 +80,8 @@ app.controller('EditArticleCtrl', function ($q, $scope, $location, $routeParams,
 
 	$scope.saveAndClose = function () {
 		$scope.save().then(function () {
-			$location.path('/');
+			//$location.path('/');
+			window.history.back();
 		})
 	}
 });
