@@ -57,14 +57,15 @@ app.controller('MatchDetailsCtrl', function ($q, $filter, $scope, $rootScope, $r
 
 		$http.get(url).then(function (matchResp) {
 			$scope.m = matchResp.data;
+			$scope.m.date = $filter('dateTime')($scope.m.date);
 		});
+		$scope.m = {};
 	} else {
-		$scope.m = { 'date': new Date(), 'goal1': 0, 'goal2' : 0, 'type': 'TOURNAMENT' };
+		$scope.m = { 'date': $filter('dateTime')(new Date()), 'goal1': 0, 'goal2' : 0, 'type': 'TOURNAMENT' };
 	}
 
 	
 	$scope.saisonTeamsMap = {};
-	$scope.m = {};
 	$scope.playerTeam = [];
 	$scope.playerTeam[0] = [];
 	$scope.playerTeam[1] = [];
@@ -123,7 +124,6 @@ app.controller('MatchDetailsCtrl', function ($q, $filter, $scope, $rootScope, $r
 		return result;
 	};
 
-
 	$scope.save = function () {
 		//$scope.article.title = $scope.title;
 		$scope.error = null;
@@ -134,11 +134,8 @@ app.controller('MatchDetailsCtrl', function ($q, $filter, $scope, $rootScope, $r
 			return directP;
 		}
 
-		var match = $scope.m;
-
-		if ($scope.frm.editor.$dirty) {
-			match.description = $scope.editorContent;
-		}
+		var match = JSON.parse(JSON.stringify($scope.m));
+		match.date = moment($scope.m.date, "DD.MM.YYYY HH:mm").format("YYYY-MM-DD HH:mm:ss");
 
 		return $http({ "method": method, "url": url, "data": match })
 			.then(function success(response) {

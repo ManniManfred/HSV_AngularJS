@@ -5,6 +5,7 @@
 <div ng-show="!hasRight('editMatch', m)">
 	<h2>{{saisonTeamsMap[m.id_saison_team1].team.name}} <b>vs</b> {{saisonTeamsMap[m.id_saison_team2].team.name}} {{m.goal1}} : {{m.goal2}}</h2>
 	<p>{{m.type | matchTypeLong}}</p>
+	<p>{{m.date}}</p>
 	<h3 ng-show="!!m.description">Beschreibung</h3>
 	<p ng-bind-html="m.description"></p>
 </div>
@@ -32,6 +33,9 @@
 	</p>
 	<p>
 		<select class="form-control" ng-model="m.type" ng-options="st as (st | matchTypeLong) for st in ['TOURNAMENT', 'FRIEND']"></select>
+	</p>
+	<p>
+		<input class="form-control" type="text" ng-model="m.date" />
 	</p>
 	<p>&nbsp;</p>
 	<div ng-cloak ng-hide="isReady" class="highlight">
