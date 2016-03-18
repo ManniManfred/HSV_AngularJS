@@ -43,7 +43,7 @@ app.controller('MatchesCtrl', function ($scope, $rootScope, $http, SettingsServi
 		loadTable();
 });
 
-app.controller('MatchDetailsCtrl', function ($q, $filter, $scope, $rootScope, $routeParams, $http, SettingsService, DataService) {
+app.controller('MatchDetailsCtrl', function ($q, $filter, $location, $scope, $rootScope, $routeParams, $http, SettingsService, DataService) {
 	$scope.$on("ckeditor.ready", function (event) {
 		$scope.isReady = true;
 	});
@@ -151,7 +151,7 @@ app.controller('MatchDetailsCtrl', function ($q, $filter, $scope, $rootScope, $r
 
 	$scope.saveAndClose = function () {
 		$scope.save().then(function () {
-			window.history.back();
+			$location.path('/Matches');
 		})
 	}
 });

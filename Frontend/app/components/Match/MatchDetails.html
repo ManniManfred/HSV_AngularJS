@@ -45,6 +45,14 @@
 	<div ng-cloak ng-show="isReady">
 		<textarea ckeditor="editorOptions" name="editor" ng-model="m.description"></textarea>
 	</div>
+	
+	<p>&nbsp;</p>
+
+	<p>
+		<button class="btn btn-default" ng-click="saveAndClose()">Speichern und Schlie&szlig;en</button>
+		<button class="btn btn-default" ng-click="save()">Speichern</button>
+		<button class="btn btn-default" ng-click="go('/Matches')">Zur&uuml;ck</button>
+	</p>
 
 	<p>&nbsp;</p>
 
@@ -54,11 +62,6 @@
 
 	<div ng-include="'app/components/Match/Player.html'" ng-controller="MatchPlayers2Ctrl"></div>
 
-	<p>
-		<button class="btn btn-default" ng-click="saveAndClose()">Speichern und Schlie&szlig;en</button>
-		<button class="btn btn-default" ng-click="save()">Speichern</button>
-		<button class="btn btn-default" onclick="window.history.back();">Zur&uuml;ck</button>
-	</p>
 </form>
 
 

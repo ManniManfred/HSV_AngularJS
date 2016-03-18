@@ -2,11 +2,13 @@
 
 var app = angular.module('LeagueManager', ['ngRoute', 'ngSanitize', 'ngCkeditor']);
 
-app.run(function ($rootScope, UserService, DataService, SettingsService) {
+app.run(function ($location, $rootScope, UserService, DataService, SettingsService) {
 	$rootScope.changeSaison = function (saison) {
 		$rootScope.selectedSaison = saison;
 	}
-
+	$rootScope.go = function (path) {
+		$location.path(path);
+	};
 	DataService.getSaisons().then(function (saisons) {
 		$rootScope.saisons = saisons;
 	}).then(function () {
