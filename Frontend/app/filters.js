@@ -24,7 +24,7 @@ app.filter('matchType', function () {
 		if (input == null)
 			return "Unbekannt";
 		if (input == 'TOURNAMENT')
-			return 'S';
+			return 'L';
 		if (input == 'FRIEND')
 			return 'F';
 
@@ -37,7 +37,7 @@ app.filter('matchTypeLong', function () {
 		if (input == null)
 			return "Unbekannt";
 		if (input == 'TOURNAMENT')
-			return 'Saison';
+			return 'Ligaspiel';
 		if (input == 'FRIEND')
 			return 'Freundschaftsspiel';
 

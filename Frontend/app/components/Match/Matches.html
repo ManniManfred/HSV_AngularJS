@@ -36,7 +36,10 @@
 		</th>
 	</tr>
 	<tr ng-repeat="m in matches | filter: search | orderBy:predicate:reverse">
-		<td><a href="#/MatchDetails/{{m.id}}">{{m.date | dateTime}}</a></td>
+		<td>
+			<a ng-show="hasRight('editMasterData')" ng-click="deleteMatch(m)" href><span class="glyphicon glyphicon-remove" style="color:red"></span></a>
+			<a href="#/MatchDetails/{{m.id}}">{{m.date | dateTime}}</a>
+		</td>
 		<td ng-show="teamId != null" title="{{m.type | matchTypeLong}}">{{m.type | matchType}}</td>
 		<td>{{m.team1_name}}</td>
 		<td>{{m.team2_name}}</td>

@@ -1,15 +1,15 @@
-'use strict';
+﻿'use strict';
 
 var app = angular.module('LeagueManager');
 
 
 app.controller('MatchesCtrl', function ($scope, $rootScope, $http, SettingsService) {
 	var url = SettingsService.backPrefix + 'matches';
-	
 
-	var leadingZeros = function(num, size) {
+
+	var leadingZeros = function (num, size) {
 		var s = "000000000" + num;
-		return s.substr(s.length-size);
+		return s.substr(s.length - size);
 	}
 
 	var loadTable = function () {
@@ -37,6 +37,29 @@ app.controller('MatchesCtrl', function ($scope, $rootScope, $http, SettingsServi
 			});
 	}
 
+	$scope.deleteMatch = function (match) {
+		if (confirm("Sind Sie sicher, dass das Spiel \"" + match.team1_name + " vs " + match.team2_name + "\" gelöscht werden soll?")) {
+			var url = SettingsService.backPrefix + 'match' + '/' + match.id;
+			$http.delete(url).then(function (resp) {
+				if (resp.data != 1)
+					alert("Das Löschen ist fehlgeschlagen.");
+				else {
+					var deletedIndex = -1;
+					for (var i = 0; i < $scope.matches.length; i++) {
+						if ($scope.matches[i].id == match.id) {
+							deletedIndex = i;
+							break;
+						}
+					}
+
+					if (deletedIndex >= 0) {
+						$scope.matches.splice(deletedIndex, 1);
+					}
+				}
+			});
+		}
+	};
+
 	$rootScope.$watch('selectedSaison', loadTable);
 
 	if ($rootScope.selectedSaison != null)
@@ -61,10 +84,10 @@ app.controller('MatchDetailsCtrl', function ($q, $filter, $location, $scope, $ro
 		});
 		$scope.m = {};
 	} else {
-		$scope.m = { 'date': $filter('dateTime')(new Date()), 'goal1': 0, 'goal2' : 0, 'type': 'TOURNAMENT' };
+		$scope.m = { 'date': $filter('dateTime')(new Date()), 'goal1': 0, 'goal2': 0, 'type': 'FRIEND' };
 	}
 
-	
+
 	$scope.saisonTeamsMap = {};
 	$scope.playerTeam = [];
 	$scope.playerTeam[0] = [];
@@ -73,10 +96,10 @@ app.controller('MatchDetailsCtrl', function ($q, $filter, $location, $scope, $ro
 	var loadSaisonTeams = function () {
 		if ($rootScope.selectedSaison == null)
 			return;
-		
+
 		var teamPromise = DataService.getTeams(true);
-		var saisonTeamPromise = $http.get(SettingsService.backPrefix 
-			+ 'saison_team?filter=id_saison,eq,' 
+		var saisonTeamPromise = $http.get(SettingsService.backPrefix
+			+ 'saison_team?filter=id_saison,eq,'
 			+ $rootScope.selectedSaison.id);
 
 		$q.all([saisonTeamPromise, teamPromise]).then(function (results) {
