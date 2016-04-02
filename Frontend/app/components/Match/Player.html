@@ -13,6 +13,7 @@
 	<form>
 		<input type="text" class="form-control" ng-model="searchPlayer" placeholder="Suche">
 		<p ng-show="search">Du suchst gerade nach: {{searchPlayer}}</p>
+		<button class="btn btn-default" ng-click="savePlayer(number)">Spielerzuordnung speichern</button>
 	</form>
 
 	<!--

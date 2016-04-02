@@ -1,27 +1,31 @@
-
-<pre>
 <?php
+error_reporting(E_ALL & ~E_NOTICE);
 
-class MyDateTime implements JsonSerializable {
+require_once("Core.inc.php");
 
-    public $timestamp;
+$x = ["yarr" => "meaningasdfful_value"];
+var_dump(IfNull($x["aharr"], IfNull($x["waharr"], $x["yarr"])));
 
-    public function __construct($dateTime) {
-        $this->timestamp = strtotime($dateTime);
-    }
-
-    public function jsonSerialize() {
-        return 'new Date("' . date(DateTime::ATOM, $this->timestamp) .'")';
-    }
-
-}
-
-$dt = new MyDateTime('2016-01-22 09:01:01' );
-
-echo "type: " . gettype($dt) . "\n";
-
-$row = ['a' => $dt, 'b' => "2", "c" => 1];
-echo json_encode($row);
+//class MyDateTime implements JsonSerializable {
+//
+//    public $timestamp;
+//
+//    public function __construct($dateTime) {
+//        $this->timestamp = strtotime($dateTime);
+//    }
+//
+//    public function jsonSerialize() {
+//        return 'new Date("' . date(DateTime::ATOM, $this->timestamp) .'")';
+//    }
+//
+//}
+//
+//$dt = new MyDateTime('2016-01-22 09:01:01' );
+//
+//echo "type: " . gettype($dt) . "\n";
+//
+//$row = ['a' => $dt, 'b' => "2", "c" => 1];
+//echo json_encode($row);
 
 //function testJSON()
 //{
@@ -42,4 +46,3 @@ echo json_encode($row);
 //   $dbh = null;
 //}
 ?>
-</pre>

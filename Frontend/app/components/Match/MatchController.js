@@ -124,14 +124,111 @@ app.controller('MatchDetailsCtrl', function ($q, $filter, $location, $scope, $ro
 	if ($rootScope.selectedSaison != null)
 		loadSaisonTeams();
 
+	var matchPlayerMap = null;
+	var matchPlayerArr = null;
+
+	var getMatchPlayer = function (asMap) {
+		if ($routeParams.matchId == 'new') {
+			matchPlayerMap = {};
+			matchPlayerArr = [];
+		}
+
+		if (matchPlayerMap != null) {
+			var defer = $q.defer();
+			setTimeout(function () { defer.resolve(asMap ? matchPlayerMap : matchPlayerArr); }, 0);
+			return defer.promise;
+		}
+
+		var url = SettingsService.backPrefix + 'match_player'
+			+ '?filter=id_match,eq,' + $routeParams.matchId;
+
+		return $http.get(url).then(function (matchPlayerResponse) {
+			matchPlayerArr = php_crud_api_transform(matchPlayerResponse.data)[SettingsService.tablePrefix + 'match_player'];
+			matchPlayerMap = {};
+
+			for (var i = 0; i < matchPlayerArr.length; i++) {
+				var item = matchPlayerArr[i];
+				matchPlayerMap[item.id_player] = item;
+			}
+			return asMap ? matchPlayerMap : matchPlayerArr;
+		});
+	};
+
 	var loadPlayer = function (number) {
 		var st = $scope.saisonTeamsMap[$scope.m['id_saison_team' + (number + 1)]];
 		if (st == null)
 			return;
 
 		DataService.getPlayer().then(function (player) {
-			$scope.playerTeam[number] = $filter('filter')(player, { 'id_team': st.id_team });
+			
+			getMatchPlayer(true).then(function (mapMatchPlayer) {
+				var playerArr = [];
+				
+				for (var i = 0; i < player.length; i++) {
+					if (player[i].id_team == st.id_team) {
+						var matchPlayerResult = {
+							'firstname': player[i].firstname,
+							'lastname': player[i].lastname,
+							'id': player[i].id,
+							'id_team': player[i].id_team
+						};
+
+						var matchPlayer = mapMatchPlayer[player[i].id];
+						matchPlayerResult.checked = matchPlayer != null;
+
+						if (matchPlayer != null) {
+							matchPlayerResult.goals = matchPlayer.goals;
+							matchPlayerResult.hasYellowCard = matchPlayer.hasYellowCard;
+							matchPlayerResult.hasYellowRedCard = matchPlayer.hasYellowRedCard;
+							matchPlayerResult.hasRedCard = matchPlayer.hasRedCard;
+						}
+						playerArr.push(matchPlayerResult);
+					}
+				}
+
+				$scope.playerTeam[number] = playerArr;
+			})
 		});
+	};
+
+	$scope.savePlayer = function (number) {
+		if ($scope.playerTeam == null)
+			return;
+
+		if ($scope.playerTeam[number] == null)
+			return;
+		
+		if ($routeParams.matchId == 'new') {
+			alert("Es muss zuerst das Spiel gespeichert werden.");
+			return;
+		}
+
+		var st = $scope.saisonTeamsMap[$scope.m['id_saison_team' + (number + 1)]];
+		if (st == null)
+			return;
+
+		var playerToStore = [];
+		var origArr = $scope.playerTeam[number];
+		for (var i = 0; i < origArr.length; i++)
+		{
+			if (origArr[i].checked)
+				playerToStore.push(origArr[i]);
+		}
+
+		return $http({
+			"method": "post",
+			"url": SettingsService.backendPath + "SaveMatchPlayer.php",
+			"data": {
+				"matchId": $routeParams.matchId,
+				"saisonTeamId": st.id,
+				"player": playerToStore
+			}
+		}).then(function success(response) {
+				if (response.data != 1)
+					alert("Spieler Zuordnung konnte nicht gespeichert werden.");
+			}, function failed(response) {
+				$scope.error = response.statusText + ": " + response.data;
+			});
 	};
 
 	$scope.$watch('saisonTeamsMap', function () { loadPlayer(0); loadPlayer(1); });
@@ -170,13 +267,14 @@ app.controller('MatchDetailsCtrl', function ($q, $filter, $location, $scope, $ro
 			}, function failed(response) {
 				$scope.error = response.statusText + ": " + response.data;
 			});
-	}
+	};
 
 	$scope.saveAndClose = function () {
 		$scope.save().then(function () {
 			$location.path('/Matches');
 		})
-	}
+	};
+
 });
 
 

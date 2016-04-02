@@ -1,7 +1,15 @@
 <?php
 
+error_reporting(E_ALL & ~E_NOTICE);
+
 require_once("config.inc.php");
 
+function IfNull($toCheck, $fallbackValue) {
+    if (isset($toCheck) && $toCheck != null)
+        return $toCheck;
+    
+    return $fallbackValue;
+}
 /**
  * core short summary.
  *
@@ -14,20 +22,20 @@ class MyCore
 {
     protected $db = null;
 
-	public function __construct() 
+    public function __construct() 
     {
         session_start();
 
         $db = new mysqli($_ENV["db_server"], $_ENV["db_user"], $_ENV["db_password"], $_ENV["db_catalog"]);
-		if (mysqli_connect_errno()) {
-			throw new \Exception('Connect failed. '.mysqli_connect_error());
-		}
-		if (!mysqli_set_charset($db, 'utf8')) {
-			throw new \Exception('Error setting charset. '.mysqli_error($db));
-		}
-		if (!mysqli_query($db,'SET SESSION sql_mode = \'ANSI_QUOTES\';')) {
-			throw new \Exception('Error setting ANSI quotes. '.mysqli_error($db));
-		}
+        if (mysqli_connect_errno()) {
+                throw new \Exception('Connect failed. '.mysqli_connect_error());
+        }
+        if (!mysqli_set_charset($db, 'utf8')) {
+                throw new \Exception('Error setting charset. '.mysqli_error($db));
+        }
+        if (!mysqli_query($db,'SET SESSION sql_mode = \'ANSI_QUOTES\';')) {
+                throw new \Exception('Error setting ANSI quotes. '.mysqli_error($db));
+        }
         
         $this->db = $db;
     }
@@ -65,7 +73,7 @@ class MyCore
 	    $result = null;
 	    if (isset($_SESSION["user_id"])) {
 		    
-            $queryResult = $this->db->query("select * from `" . $_ENV["table_prefix"]
+                $queryResult = $this->db->query("select * from `" . $_ENV["table_prefix"]
 				    . "users` where id = " . ((int) $_SESSION["user_id"]));
 		    $users = $queryResult->fetch_all(MYSQLI_ASSOC);
 
@@ -78,6 +86,133 @@ class MyCore
 	    return $result;
     }
 
+    public function SaveMatchPlayer($data)
+    {
+        $sql = "select id, id_player from " . $_ENV["table_prefix"] . "match_player";
+        $sql .= " where id_match = ?";
+        $sql .= " and id_saison_team = ?";
+        
+        $playerToMatchPlayer = array();
+        
+        if ($stmt = $this->db->prepare($sql))
+        {
+            $stmt->bind_param("ii", $data["matchId"], $data["saisonTeamId"]);
+            
+            $stmt->execute();
+
+            $stmt->bind_result($id, $idPlayer);
+
+            while ($stmt->fetch()) {
+                $playerToMatchPlayer[$idPlayer] = $id;
+            }
+
+            $stmt->close();
+        }
+        
+        //print_r($data);
+        //print_r($playerToMatchPlayer);
+        
+        foreach($data["player"] as $player)
+        {
+            if (array_key_exists($player["id"], $playerToMatchPlayer))
+            {
+                $matchPlayerId = $playerToMatchPlayer[$player["id"]];
+                
+                unset($playerToMatchPlayer[$player["id"]]);
+                
+                // update item
+                $querySql = "UPDATE " . $_ENV["table_prefix"] . "player_match ";
+                $querySql .= "SET hasRedCard = ?, hasYellowCard = ?, hasYellowRedCard = ?, goals = ?";
+                $querySql .= " WHERE id = ?";
+                
+                if ($querySql != "" && $stmt = $this->db->prepare($querySql))
+                {
+                    $stmt->bind_param("iiiii", 
+                            $player["hasRedCard"], 
+                            $player["hasYellowCard"], 
+                            $player["hasYellowRedCard"], 
+                            $player["goals"], 
+                            $matchPlayerId);
+                    $stmt->execute();
+                    $stmt->close();
+                }
+            }
+            else
+            {
+                // create
+                // check for saison player
+                $querySql = "select id from " . $_ENV["table_prefix"] . "saison_player where id_player = ?";
+                
+                $saisonPlayerId = -1;
+                
+                if ($stmt = $this->db->prepare($querySql))
+                {
+                    $stmt->bind_param("i", $player["id"]);
+                    $stmt->execute();
+                    $stmt->bind_result($saisonPlayerId);
+                    
+                    if (!$stmt->fetch())
+                        $saisonPlayerId = -1;
+                    
+                    $stmt->close();
+                }
+                
+                if ($saisonPlayerId < 0)
+                {
+                    // create new saison player
+                    $querySql = "insert into " . $_ENV["table_prefix"] . "saison_player";
+                    $querySql .= " (id_saison_team, id_player)";
+                    $querySql .= " values(?,?)";
+                
+                    if ($stmt = $this->db->prepare($querySql))
+                    {
+                        $stmt->bind_param("ii", $data["saisonTeamId"], $player["id"]);
+                        $stmt->execute();
+                        
+                        $saisonPlayerId = $this->db->insert_id;
+                        
+                        $stmt->close();
+                    }
+                }
+                
+                $querySql = "INSERT INTO " . $_ENV["table_prefix"] . "player_match ";
+                $querySql .= "(id_match, id_saison_player, hasRedCard, hasYellowCard, hasYellowRedCard, goals)";
+                $querySql .= "VALUES (?, ?, ?, ?, ?, ?)";
+                if ($stmt = $this->db->prepare($querySql))
+                {
+                    $stmt->bind_param("iiiiii", 
+                            $data["matchId"], 
+                            $saisonPlayerId, 
+                            $player["hasRedCard"],
+                            $player["hasYellowCard"], 
+                            $player["hasYellowRedCard"],
+                            $player["goals"]);
+                    
+                    $stmt->execute();
+                    $stmt->close();
+                }
+            }
+            
+        }
+        
+        $idsToDelete = "";
+        
+        // delete all not set
+        foreach($playerToMatchPlayer as $playerId => $matchPlayerId)
+        {
+            if (is_int($matchPlayerId))
+            {
+                if ($idsToDelete != "")
+                    $idsToDelete .= ", ";
+                $idsToDelete .= $matchPlayerId;
+            }
+        }
+        
+        if ($idsToDelete != "")
+            $this->db->query("DELETE FROM " . $_ENV["table_prefix"] . "player_match WHERE id IN ($idsToDelete)");
+        
+        return true;
+    }
 }
 
 ?>
