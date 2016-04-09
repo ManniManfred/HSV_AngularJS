@@ -1,15 +1,7 @@
 <?php
 
-error_reporting(E_ALL & ~E_NOTICE);
-
 require_once("config.inc.php");
 
-function IfNull($toCheck, $fallbackValue) {
-    if (isset($toCheck) && $toCheck != null)
-        return $toCheck;
-    
-    return $fallbackValue;
-}
 /**
  * core short summary.
  *
