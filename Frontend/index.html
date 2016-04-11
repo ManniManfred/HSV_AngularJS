@@ -2,9 +2,14 @@
 <head>
 	<meta charset="utf8" />
 	<title>{{rootScope.title}}</title>
+	<!-- @ifndef BUILD  -->
 	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
 	<link rel="stylesheet" href="assets/libs/ng-ckeditor.css">
 	<link rel="stylesheet" href="assets/css/app.css">
+	<!-- @endif -->
+	<!-- @ifdef BUILD !>
+	<link rel="stylesheet" href="lm.css">
+	<!-- @endif -->	
 </head>
 <body>
 	<nav class="navbar navbar-inverse">
@@ -65,6 +70,7 @@
 
 	</footer>
 	
+	<!-- @ifndef BUILD  -->
 	<script src="bower_components/moment/moment.js"></script>
 	<script src="bower_components/jquery/dist/jquery.min.js"></script>
 	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -91,6 +97,11 @@
 	<script src="app/components/Player/PlayerController.js"></script>
 	<script src="app/components/Team/TeamController.js"></script>
 
+	<!-- @endif -->
+	<!-- @ifdef BUILD !>
+	<script src="app-concat.js"></script>
+	<!-- @endif -->	
+	
 	<script>
 	</script>
 

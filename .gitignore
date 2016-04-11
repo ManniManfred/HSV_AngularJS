@@ -3,3 +3,4 @@ ckeditor
 .vs
 *.bak
 /nbproject/private/
+build
