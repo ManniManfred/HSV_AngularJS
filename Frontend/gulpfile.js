@@ -6,22 +6,42 @@ var preprocess = require('gulp-preprocess');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var ngAnnotate = require('gulp-ng-annotate');
+var rename = require("gulp-rename");
+var argv = require('yargs').argv;
+var templateCache = require('gulp-angular-templatecache');
 
-var outputPath = './build';
+var targetName = 'HsvWeb';
+if (argv.targetName != null)
+	targetName = argv.targetName;
 
-gulp.task('HsvWeb', function() {
-	outputPath = '../build/hsv_web';
+var outputPath = 'Build/' + targetName;
+var tmpPath = 'Build/.tmp';
+
+gulp.task('default', function() {
+	console.log('Erstelle ' + targetName);
+	
+	gulp.src('app/components/**/*.html')
+		.pipe(templateCache({'root': 'app/components/', 'module': 'LeagueManager'}))
+		.pipe(gulp.dest(tmpPath));
+	
 	gulp.start('concat-css');
 	gulp.start('concat-js');
 	gulp.start('make-index');
 	
 	// copy files
-	gulp.src(['config.js'])
-  .pipe(gulp.dest(outputPath));
+	gulp.src(['assets/img/**'])
+		.pipe(gulp.dest(outputPath + '/assets/img'));
+		
+	gulp.src(['bower_components/bootstrap/dist/**'])
+		.pipe(gulp.dest(outputPath + '/bootstrap'));
+		
+	gulp.src(['config.' + targetName + '.js'])
+		.pipe(rename('config.js'))
+		.pipe(gulp.dest(outputPath));
 });
 
 gulp.task('concat-css', function() {
-	gulp.src(['bower_components/bootstrap/dist/css/bootstrap.min.css',
+	gulp.src([
 		'assets/libs/ng-ckeditor.css',
 		'assets/css/app.css'])
 	.pipe(concatCss('lm.css'))
@@ -30,7 +50,9 @@ gulp.task('concat-css', function() {
 });
 
 gulp.task('concat-js', function () {
+	console.log("templates: " + tmpPath + '/templates.js');
     gulp.src([
+			// 'config' + targetName + '.js',
 			'bower_components/moment/moment.js',
 			'bower_components/jquery/dist/jquery.min.js',
 			'bower_components/bootstrap/dist/js/bootstrap.min.js',
@@ -40,7 +62,8 @@ gulp.task('concat-js', function () {
 			'assets/libs/php_crud_api_transform.js',
 			'assets/libs/ckeditor/ckeditor.js',
 			'assets/libs/ng-ckeditor.min.js',
-			'app/**/*.js'])
+			'app/**/*.js',
+			tmpPath + '/templates.js'])
     //.pipe(sourcemaps.init())
         .pipe(concat('app-concat.js'))
         .pipe(ngAnnotate())

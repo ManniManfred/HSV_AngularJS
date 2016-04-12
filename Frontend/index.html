@@ -9,6 +9,7 @@
 	<!-- @endif -->
 	<!-- @ifdef BUILD !>
 	<link rel="stylesheet" href="lm.css">
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 	<!-- @endif -->	
 </head>
 <body>
@@ -86,7 +87,6 @@
 	<script src="app/filters.js"></script>
 
 	<!-- services -->
-	<script src="config.js"></script>
 	<script src="app/services/UserService.js"></script>
 	<script src="app/services/DataService.js"></script>
 
@@ -101,6 +101,9 @@
 	<!-- @ifdef BUILD !>
 	<script src="app-concat.js"></script>
 	<!-- @endif -->	
+	
+	<!-- include in all cases -->
+	<script src="config.js"></script>
 	
 	<script>
 	</script>
