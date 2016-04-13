@@ -1,6 +1,5 @@
 <?php
 
-require_once("config.inc.php");
 require_once("php-crud-api/api.php");
 
 require_once("Core.inc.php");

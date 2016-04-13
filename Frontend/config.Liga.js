@@ -8,8 +8,8 @@ app.factory('SettingsService', function ($rootScope) {
 	$rootScope.teamId = null;
 
 	var tableP = 'lm_';
-	var backendPath = '../../../backend/';
-	var backend = backendPath + 'data.php/';
+	var backendPath = '../../../Backend/';
+	var backend = backendPath + 'Data.php/';
 
 	var service = {
 		'teamId': $rootScope.teamId,
