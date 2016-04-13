@@ -4,9 +4,7 @@ var app = angular.module('LeagueManager');
 
 
 app.controller('MatchesCtrl', function ($scope, $rootScope, $http, SettingsService) {
-	var url = SettingsService.backPrefix + 'matches';
-
-
+	
 	var leadingZeros = function (num, size) {
 		var s = "000000000" + num;
 		return s.substr(s.length - size);
@@ -15,7 +13,8 @@ app.controller('MatchesCtrl', function ($scope, $rootScope, $http, SettingsServi
 	var loadTable = function () {
 		if ($rootScope.selectedSaison == null)
 			return;
-
+		
+		var url = SettingsService.backPrefix + 'matches';
 		if (SettingsService.teamId == null)
 			url += '?satisfy=all&filter[]=saison_id,eq,' + $rootScope.selectedSaison.id
 				+ '&filter[]=type,eq,TOURNAMENT';
