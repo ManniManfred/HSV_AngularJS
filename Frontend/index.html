@@ -1,7 +1,9 @@
 ﻿<html ng-app="LeagueManager">
 <head>
 	<meta charset="utf8" />
-	<title>{{rootScope.title}}</title>
+	<title>{{title}}</title>
+	<link ng-show="favicon != null" rel="shortcut icon" type="image/x-icon" href="{{favicon}}">
+	
 	<!-- @ifndef BUILD  -->
 	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
 	<link rel="stylesheet" href="assets/libs/ng-ckeditor.css">
@@ -21,7 +23,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#/">{{title}}</a>
+				<a class="navbar-brand" href="#/"><img ng-show="favicon != null" src="{{favicon}}" style="float: left;"> {{title}}</a>
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
