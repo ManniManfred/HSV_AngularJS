@@ -35,25 +35,28 @@ class MyCore
     public function Login($username, $password) {
 	    $passHash = hash(PASSWORD_HASH_ALGO, $password);
 
-	    $query = sprintf("select * from `" . $_ENV["table_prefix"] . "users` where username='%s' and password='%s'",
-                 $this->db->escape_string($username), $this->db->escape_string($passHash));
+	    $sql = "select id from `" . $_ENV["table_prefix"] . "users` where username=? and password=?";
 
-
-	    $queryResult = $this->db->query($query);
-
-        $resultArr = $queryResult->fetch_all(MYSQLI_ASSOC);
-        //echo json_encode($resultArr);
-
-	    $result = array("result" => false, "message" => "Benutzer Passwort Kombination ist falsch.");
-
-	    if (count($resultArr) == 1) {
-		    $_SESSION["user_id"] = $resultArr[0]["id"];
-		    $result["result"] = true;
-		    $result["message"] = "ok";
-		    $result["user"] = $this->GetSelf();
-	    }
-
-        $queryResult->close();
+      $result = array("result" => false, "message" => "Benutzer Passwort Kombination ist falsch.");
+      
+      if ($stmt = $this->db->prepare($sql))
+      {
+          $stmt->bind_param("ss", $username, $passHash);
+          $stmt->execute();
+          $stmt->bind_result($id);
+          
+          if ($stmt->fetch()) {
+            $_SESSION["user_id"] = $id; 
+            $result["result"] = true;
+            $result["message"] = "ok";
+          }
+          
+          $stmt->close();
+      }
+      
+	    if (isset($_SESSION["user_id"]))
+        $result["user"] = $this->GetSelf();
+      
 	    return $result;
     }
 
@@ -64,20 +67,35 @@ class MyCore
     public function GetSelf() {
 	    $result = null;
 	    if (isset($_SESSION["user_id"])) {
-		    
-                $queryResult = $this->db->query("select * from `" . $_ENV["table_prefix"]
-				    . "users` where id = " . ((int) $_SESSION["user_id"]));
-		    $users = $queryResult->fetch_all(MYSQLI_ASSOC);
+		    $sql = "select id, username, firstname, lastname, email, id_team, rights from `" . $_ENV["table_prefix"]
+				    . "users` where id = ?";
 
-		    if (count($users) > 0) {
-			    $result = $users[0];
-			    $result["password"] = PASSWORD_DUMMY;
-			    $result["confirmPassword"] = PASSWORD_DUMMY;
-		    }
+        if ($stmt = $this->db->prepare($sql))
+        {
+            $stmt->bind_param("i", $_SESSION["user_id"]);
+            $stmt->execute();
+            $stmt->bind_result($id, $username, $firstname, $lastname, $email, $id_team, $rights);
+            
+            if ($stmt->fetch()) {
+              $result = array();
+              $result["id"] = $id;
+              $result["username"] = $username;
+              $result["firstname"] = $firstname;
+              $result["lastname"] = $lastname;
+              $result["email"] = $email;
+              $result["id_team"] = $id_team;
+              $result["rights"] = $rights;
+              
+              $result["password"] = PASSWORD_DUMMY;
+              $result["confirmPassword"] = PASSWORD_DUMMY;
+            }
+            
+            $stmt->close();
+        }
 	    }
 	    return $result;
     }
-
+		
     public function SaveMatchPlayer($data)
     {
         $sql = "select id, id_player from " . $_ENV["table_prefix"] . "match_player";
