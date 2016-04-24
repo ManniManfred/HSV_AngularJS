@@ -31,7 +31,10 @@ gulp.task('default', function() {
 	// copy files
 	gulp.src(['assets/img/**'])
 		.pipe(gulp.dest(outputPath + '/assets/img'));
-		
+
+	gulp.src(['assets/libs/ckeditor/**'])
+		.pipe(gulp.dest(outputPath + '/assets/libs/ckeditor'));
+	
 	gulp.src(['bower_components/bootstrap/dist/**'])
 		.pipe(gulp.dest(outputPath + '/bootstrap'));
 		
@@ -60,7 +63,6 @@ gulp.task('concat-js', function () {
 			'bower_components/angular-route/angular-route.min.js',
 			'bower_components/angular-sanitize/angular-sanitize.min.js',
 			'assets/libs/php_crud_api_transform.js',
-			'assets/libs/ckeditor/ckeditor.js',
 			'assets/libs/ng-ckeditor.min.js',
 			'app/**/*.js',
 			tmpPath + '/templates.js'])
