@@ -88,9 +88,22 @@ app.factory('DataService', function ($q, $http, $rootScope, SettingsService) {
 			}
 			return -1;
 		},
+		_getTeamIndexOf: function (team) {
+			if (teamsArr != null) {
+				for (var i = 0; i < teamsArr.length; i++) {
+					if (team == teamsArr[i])
+						return i;
+				}
+			}
+			return -1;
+		},
 		clearPlayerCache: function() {
 			playersMap = null;
 			playersArr = null;
+		},
+		clearTeamsCache: function () {
+			teamsMap = null;
+			teamsArr = null;
 		},
 		deletePlayer: function (player) {
 			var url = SettingsService.backPrefix + 'player' + '/' + player.id;
@@ -106,6 +119,24 @@ app.factory('DataService', function ($q, $http, $rootScope, SettingsService) {
 					var idx = service._getPlayerIndexOf(player);
 					if (idx >= 0)
 						playersArr.splice(idx, 1);
+				}
+				return true;
+			});
+		},
+		deleteTeam: function (team) {
+			var url = SettingsService.backPrefix + 'team' + '/' + team.id;
+			return $http.delete(url).then(function (deleteResult) {
+				if (deleteResult.data != 1)
+					return false;
+
+				if (teamsMap != null) {
+					// remove from map
+					delete teamsMap[team.id];
+
+					// remove from arr
+					var idx = service._getTeamIndexOf(team);
+					if (idx >= 0)
+						teamsArr.splice(idx, 1);
 				}
 				return true;
 			});

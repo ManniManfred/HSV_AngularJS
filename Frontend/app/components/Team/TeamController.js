@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 var app = angular.module('LeagueManager');
 
@@ -47,30 +47,39 @@ app.controller('TeamsCtrl', function ($scope, DataService) {
 	DataService.getTeams().then(function (teams) {
 		$scope.teams = teams;
 		$scope.predicate = 'name';
-		$scope.reverse = true;
+		$scope.reverse = false;
 		$scope.order = function (predicate) {
 			$scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
 			$scope.predicate = predicate;
 		}
 	});
+
+	$scope.deleteTeam = function (team) {
+		if (confirm("Sind Sie sicher, dass die Mannschaft \"" + team.name + "\" gelöscht werden soll?")) {
+			DataService.deleteTeam(team).then(function (deleteResult) {
+				if (!deleteResult)
+					alert("Das Löschen ist fehlgeschlagen.");
+			});
+		}
+	};
 });
 
-app.controller('TeamDetailsCtrl', function ($scope, $routeParams, $http, SettingsService) {
+app.controller('TeamDetailsCtrl', function ($scope, $routeParams, $location, $http, DataService, SettingsService) {
 
-	var url = SettingsService.backPrefix + 'player';
+
+	var url = SettingsService.backPrefix + 'team';
 	var method = 'POST';
 
-	if ($routeParams.playerId != 'new') {
-		url += '/' + $routeParams.playerId;
+	if ($routeParams.teamId != 'new') {
+		url += '/' + $routeParams.teamId;
 		method = 'PUT';
 
-		$http.get(url).then(function (resp) {
-			$scope.player = resp.data;
+		DataService.getTeams(true).then(function (teams) {
+			$scope.team = teams[$routeParams.teamId];
 		});
 	}
 
 	$scope.save = function () {
-
 		$scope.error = null;
 
 		if (!$scope.frm.$dirty) {
@@ -79,15 +88,28 @@ app.controller('TeamDetailsCtrl', function ($scope, $routeParams, $http, Setting
 			return directP;
 		}
 
-		var data = $scope.player;
+		var data = $scope.team;
 
 		return $http({ "method": method, "url": url, "data": data })
 			.then(function success(response) {
-				if ($routeParams.articleId == 'new') {
-					$location.path('/PlayerDetails/' + response.data);
+				$scope.error = null;
+				if ($routeParams.teamId == 'new') {
+					if (!response.data)
+						$scope.error = 'Das Anlegen diesen neuen Spielers ist fehlgeschlagen';
+					else {
+						DataService.clearTeamsCache();
+						$location.path('/TeamDetails/' + response.data);
+					}
 				}
 			}, function failed(response) {
 				$scope.error = response.statusText + ": " + response.data;
 			});
+	}
+
+	$scope.saveAndClose = function () {
+		$scope.save().then(function () {
+			//window.history.back();
+			$location.path('/Teams');
+		})
 	}
 });

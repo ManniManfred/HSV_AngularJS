@@ -1,12 +1,13 @@
-<h2>Mannschaften</h2>
+﻿<h2>Mannschaften</h2>
 <form>
 	<input type="text" ng-model="search">
 	<p ng-show="search">Du suchst gerade nach: {{search}}</p>
 </form>
 
 <p ng-show="hasRight('editMasterData')">
-	<a href="#/TeamDetails/new">Neue Mannschaft</a>
+	<a href="#/TeamDetails/new"><span class="glyphicon glyphicon-plus"></span>Neue Mannschaft</a>
 </p>
+
 <table class="table" ng-controller="TeamsCtrl">
 	<tr>
 		<th>
@@ -19,7 +20,9 @@
 		</th>
 	</tr>
 	<tr ng-repeat="(key, team) in teams | filter: search | orderBy:predicate:reverse">
-		<td><a href="#/TeamDetails/{{team.id}}">{{team.name}}</a></td>
+		<td>
+			<a ng-show="hasRight('editMasterData')" ng-click="deleteTeam(team)" href><span class="glyphicon glyphicon-remove" style="color:red"></span></a>
+			<a href="#/TeamDetails/{{team.id}}">{{team.name}}</a></td>
 		<td><a href="{{team.homepage}}" target="_blank">{{team.homepage}}</a></td>
 	</tr>
 </table>

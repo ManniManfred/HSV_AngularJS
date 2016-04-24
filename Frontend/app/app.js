@@ -32,6 +32,8 @@ app.config(function ($routeProvider) {
 		.when('/Player/Details/:playerId', { templateUrl: 'app/components/Player/Details.html', controller: 'PlayerDetailsCtrl' })
 		.when('/Matches', { templateUrl: 'app/components/Match/Matches.html', controller: 'MatchesCtrl' })
 		.when('/MatchDetails/:matchId', { templateUrl: 'app/components/Match/MatchDetails.html', controller: 'MatchDetailsCtrl' })
+		.when('/Teams', { templateUrl: 'app/components/Team/Teams.html', controller: 'TeamsCtrl' })
+		.when('/TeamDetails/:teamId', { templateUrl: 'app/components/Team/TeamDetails.html', controller: 'TeamDetailsCtrl' })
 		.when('/Impressum', { templateUrl: 'app/components/HSV/Impressum.html' })
 		.when('/Users', { templateUrl: 'app/components/Auth/Users.html', controller: 'UsersCtrl' })
 		.when('/User/:userId', { templateUrl: 'app/components/Auth/User.html', controller: 'UserCtrl' })
