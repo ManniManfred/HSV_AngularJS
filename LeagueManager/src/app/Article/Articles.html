@@ -1,5 +1,5 @@
 <h2>Neuigkeiten</h2>
-<div *ngFor="let art of articles">
+<div *ngFor="let art of data">
     <div class="article">
         <h2>{{art.title}}</h2>
         <div [innerHTML]="art.content"></div>

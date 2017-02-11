@@ -1,19 +1,26 @@
-import { Component } from '@angular/core'
-import { Article } from './Article';
-import { ArticleService } from './Article.service'
+import { Component } from '@angular/core';
+import { Http } from "@angular/http";
+import { AbstractDataComponent } from '../AbstractDataComponent';
+import { Settings } from '../Settings';
 
 @Component({
     selector: 'Articles',
-    providers: [ArticleService],
     templateUrl: './Articles.html'
 })
-export class ArticlesComponent {
-    public articles = [];
+export class ArticlesComponent extends AbstractDataComponent {
+    
+    constructor(http: Http) {
+        super('article', http);
+    }
 
-    constructor(private artService: ArticleService)
-    {
-        this.artService.getArticles().then(
-            (arts) => this.articles = arts
-        );
+    protected getUrl(): string {
+        let url = super.getUrl() + '?order=created,desc';
+
+        if (Settings.Instance.TeamId < 0)
+            url += '&filter=team_id,isnull';
+        else
+            url += '&filter=team_id,eq,' + Settings.Instance.TeamId;
+        
+        return url;
     }
 }
