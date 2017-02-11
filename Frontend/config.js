@@ -8,10 +8,10 @@ app.factory('SettingsService', function ($rootScope) {
 	$rootScope.teamId = null;
 	
 	
-	$rootScope.title = "Holthausener Sportverein";
-	$rootScope.sites = [{ 'id': 'History', 'title': "Geschichte" }, { 'id': 'Player/RankHistory', 'title': 'Ewige Liste' }];
-	$rootScope.teamId = 3;
-	$rootScope.favicon = "assets/img/HsvWeb.ico";
+	//$rootScope.title = "Holthausener Sportverein";
+	//$rootScope.sites = [{ 'id': 'History', 'title': "Geschichte" }, { 'id': 'Player/RankHistory', 'title': 'Ewige Liste' }];
+	//$rootScope.teamId = 3;
+	//$rootScope.favicon = "assets/img/HsvWeb.ico";
 	
 	var tableP = 'lm_';
 	var backendPath = '../Backend/';

@@ -1,0 +1,24 @@
+<h2>Neuigkeiten</h2>
+<div *ngFor="let art of articles">
+    <div class="article">
+        <h2>{{art.title}}</h2>
+        <div [innerHTML]="art.content"></div>
+    </div>
+</div>
+
+<!--
+<div class="container">
+	<div>
+		<a ng-show="hasRight('createArticle')" href="#/EditArticle/new"><span class="glyphicon glyphicon-pencil"></span>Neuer Beitrag</a>
+	</div>
+	<div ng-repeat="art in articles">
+		<div class="article">
+			<h2>{{art.title}}</h2>
+			<p ng-bind-html="art.content"></p>
+
+			<a ng-show="hasRight('editArticle')" href="#/EditArticle/{{art.id}}"><span class="glyphicon glyphicon-edit"></span>Bearbeiten</a>
+			<a ng-show="hasRight('deleteRight')" href="#/DeleteArticle/{{art.id}}"><span class="glyphicon glyphicon-remove"></span>L&ouml;schen</a>
+		</div>
+	</div>
+</div>
+-->

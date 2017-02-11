@@ -1,5 +1,3 @@
 TODO:
 * Ergebnis von update/ delete /create überprüfen: 1 = erfolg; 0 = misserfolg
 * Sicherheit/Berechtigungen
-* Tilel in der Titelleiste ist nicht sichtbar
-* 

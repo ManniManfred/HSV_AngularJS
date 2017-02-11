@@ -77,6 +77,12 @@ app.controller('TeamDetailsCtrl', function ($scope, $routeParams, $location, $ht
 		DataService.getTeams(true).then(function (teams) {
 			$scope.team = teams[$routeParams.teamId];
 		});
+
+		var getSaisonTeamsUrl = url + '?filter=id_team,eq' + $routeParams.teamId;
+
+		$http.get(getSaisonTeamsUrl).then(function (saisonTeamsResp) {
+			$scope.saisonTeams = php_crud_api_transform(saisonTeamsResp.data)[SettingsService.tablePrefix + 'team'];
+		});
 	}
 
 	$scope.save = function () {
