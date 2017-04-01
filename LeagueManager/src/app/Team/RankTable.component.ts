@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Http} from "@angular/http";
+import { Http } from "@angular/http";
 import { Settings } from '../Settings';
 import { AbstractDataComponent } from '../AbstractDataComponent';
 
@@ -11,11 +11,9 @@ export class RankTableComponent extends AbstractDataComponent {
     public sortBy = "rank";
     public sortOrder = "asc";
 
-    constructor(http: Http)
-    {
+    constructor(http: Http) {
         super('play_table', http);
 
-        Settings.Instance.SelectedSaison
     }
 
     protected getUrl(): string {
@@ -27,5 +25,10 @@ export class RankTableComponent extends AbstractDataComponent {
 
         return url;
     }
-    
+
+    public order(sortStr : string) : void {
+        if (this.sortBy == sortStr)
+            this.sortOrder = this.sortOrder == "asc" ? "desc" : "asc";
+        this.sortBy = sortStr;
+    }
 }

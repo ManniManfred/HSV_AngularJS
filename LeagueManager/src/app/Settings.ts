@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 
 export class Saison {
     public id: number;
@@ -23,6 +22,10 @@ export class Settings {
         return this.backendPath + 'Data.php/' + this.TablePrefix;
     }
 
+	public GetFunctionUrl(fName): string {
+		return this.backendPath + fName + '.php';
+	}
+
     private constructor() {
         this.backendPath = '/LeagueManager/Backend/';
     }
@@ -30,6 +33,4 @@ export class Settings {
     public static get Instance() {
         return this._instance || (this._instance = new this());
     }
-
-
 }

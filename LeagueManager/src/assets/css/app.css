@@ -13,11 +13,15 @@ body {
 }
 .vertTable td { padding: 10px; }
 
-.sortorder:after {
+.sortorder.asc:after {
 	content: '\25b2';
 }
-.sortorder.reverse:after {
+.sortorder.desc:after {
 	content: '\25bc';
+}
+.group {
+  border: solid 1pt #5555aa;
+  /* border: solid 1pt #aaaaff; */
 }
 /* Sticky footer styles
 -------------------------------------------------- */
