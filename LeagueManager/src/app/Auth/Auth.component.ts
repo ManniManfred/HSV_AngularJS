@@ -16,7 +16,7 @@ export class AuthComponent {
     });
 
     constructor(public fb: FormBuilder, private http: Http,
-        private auth: AuthService) {
+        public auth: AuthService) {
         //this.currentUser = Settings.Instance.CurrentUser;
     }
 

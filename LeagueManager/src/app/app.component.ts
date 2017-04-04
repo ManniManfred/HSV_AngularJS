@@ -13,7 +13,8 @@ export class AppComponent {
   testdata = [{'id': 1, 'name': "2014"},{'id': 2, 'name': "2015"},{'id': 3, 'name': "2016"}];
   selectedValue = null;
 
-  public constructor(private dataService: DataService) {
+  public constructor(public dataService: DataService) {
+    
   }
 
 }

@@ -7,7 +7,7 @@ import { DataService } from '../Services/DataService';
 })
 export class StartComponent {
     
-  public constructor(private dataService: DataService) {
+  public constructor(public dataService: DataService) {
   }
 
 }
