@@ -2,34 +2,43 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ComboBoxModule } from 'ng2-combobox';
 
 import { AppComponent } from './app.component';
 import { ArticlesComponent } from './Article/Articles.component';
 import { RankTableComponent } from './Team/RankTable.component';
 import { AuthComponent } from './Auth/Auth.component';
-import { AuthService } from './Auth/AuthService';
+import { StartComponent } from './Start/Start.component';
+
+import { AuthService } from './Services/AuthService';
+import { SettingsService } from './Services/SettingsService';
+import { DataService } from './Services/DataService';
 
 @NgModule({
   declarations: [
     AppComponent,
     ArticlesComponent,
     RankTableComponent,
+    StartComponent,
     AuthComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    RouterModule.forRoot([{
+    ComboBoxModule,
+    RouterModule.forRoot([
+    {
       path: 'Articles',
       component: ArticlesComponent
     }, {
-      path: 'RankTable',
-      component: RankTableComponent
+      path: '**',
+      component: StartComponent
     }])
   ],
-  providers: [AuthService],
+  providers: [AuthService, SettingsService, DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

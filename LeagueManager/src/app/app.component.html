@@ -6,7 +6,11 @@
 </div>
 <a routerLink="/Start">Start</a>
 <a routerLink="/Articles">Neuigkeiten</a>
-<a routerLink="/RankTable">Tabelle</a>
+
+Saison:
+<select [(ngModel)]="dataService.selectedSaisonId">
+    <option *ngFor="let c of dataService.saisons.data" value="{{c.id}}">{{c.name}}</option>
+</select>
 
 <router-outlet></router-outlet>
 

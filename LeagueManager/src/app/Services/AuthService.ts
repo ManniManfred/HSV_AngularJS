@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from "@angular/http";
-import { Settings } from '../Settings';
+import { SettingsService } from './SettingsService';
 
 export class User {
     public id: number;
@@ -18,13 +18,12 @@ export class AuthService {
     public CurrentUser: User = null;
     public ErrMsg: string = null;
 
-    public constructor(private http: Http) {
-        console.log("auth constructor");
+    public constructor(private http: Http, private settings: SettingsService) {
         this.loadCurrentUser();
     }
 
     private loadCurrentUser(): void {
-        let url = Settings.Instance.GetFunctionUrl('GetSelf');
+        let url = this.settings.GetFunctionUrl('GetSelf');
         this.http.post(url, null).toPromise()
             .then(resp => {
                 this.CurrentUser = resp.json();
@@ -35,7 +34,7 @@ export class AuthService {
 
         this.ErrMsg = null;
 
-        let url = Settings.Instance.GetFunctionUrl("Login");
+        let url = this.settings.GetFunctionUrl("Login");
         let body = {
             'username': username,
             'password': password
@@ -57,7 +56,7 @@ export class AuthService {
     Logout() {
         this.ErrMsg = null;
 
-        let url = Settings.Instance.GetFunctionUrl("Logout");
+        let url = this.settings.GetFunctionUrl("Logout");
         this.http.post(url, null).toPromise()
             .then(resp => {
                 this.CurrentUser = null;

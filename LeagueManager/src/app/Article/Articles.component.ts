@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Http } from "@angular/http";
 import { AbstractDataComponent } from '../AbstractDataComponent';
-import { Settings } from '../Settings';
+import { SettingsService } from '../Services/SettingsService';
 
 @Component({
     selector: 'Articles',
@@ -9,17 +9,17 @@ import { Settings } from '../Settings';
 })
 export class ArticlesComponent extends AbstractDataComponent {
     
-    constructor(http: Http) {
-        super('article', http);
+    constructor(http: Http, settings: SettingsService) {
+        super('article', http, settings);
     }
 
     protected getUrl(): string {
         let url = super.getUrl() + '?order=created,desc';
 
-        if (Settings.Instance.TeamId < 0)
+        if (this.settings.TeamId < 0)
             url += '&filter=team_id,isnull';
         else
-            url += '&filter=team_id,eq,' + Settings.Instance.TeamId;
+            url += '&filter=team_id,eq,' + this.settings.TeamId;
         
         return url;
     }

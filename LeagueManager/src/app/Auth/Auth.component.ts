@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { Http } from "@angular/http";
-import { Settings } from '../Settings';
-import { User } from './AuthService';
+import { User, AuthService } from '../Services/AuthService';
 import { FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from './AuthService';
+
 
 @Component({
     selector: 'Auth',

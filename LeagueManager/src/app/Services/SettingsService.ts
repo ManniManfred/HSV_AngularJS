@@ -1,15 +1,19 @@
+import { Injectable } from '@angular/core';
+import { Http } from "@angular/http";
 
 export class Saison {
     public id: number;
     public name: string;
 }
 
-export class Settings {
-    private static _instance: Settings;
+@Injectable()
+export class SettingsService {
 
     private backendPath: string;
 
-    public SelectedSaison : Saison = null;
+    public constructor(private http: Http) {
+        this.backendPath = '/LeagueManager/Backend/';
+    }
 
     public get TeamId(): number {
         return -1;
@@ -26,11 +30,4 @@ export class Settings {
 		return this.backendPath + fName + '.php';
 	}
 
-    private constructor() {
-        this.backendPath = '/LeagueManager/Backend/';
-    }
-
-    public static get Instance() {
-        return this._instance || (this._instance = new this());
-    }
 }
