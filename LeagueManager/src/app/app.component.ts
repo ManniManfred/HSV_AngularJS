@@ -14,7 +14,6 @@ export class AppComponent {
   selectedValue = null;
 
   public constructor(private dataService: DataService) {
-
   }
 
 }
