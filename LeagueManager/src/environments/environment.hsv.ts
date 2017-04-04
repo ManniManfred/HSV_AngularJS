@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  title: "Kreisliga Borken",
-  teamId: -1
+  title:  "Holthausener Sportverein",
+  teamId: 3
 };

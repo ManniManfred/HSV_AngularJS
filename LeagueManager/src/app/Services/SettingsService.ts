@@ -15,10 +15,6 @@ export class SettingsService {
         this.backendPath = '/LeagueManager/Backend/';
     }
 
-    public get TeamId(): number {
-        return -1;
-    }
-
     public get TablePrefix(): string {
         return 'lm_';
     }

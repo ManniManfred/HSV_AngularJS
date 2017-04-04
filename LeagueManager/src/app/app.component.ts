@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DataService } from './Services/DataService';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -7,14 +8,10 @@ import { DataService } from './Services/DataService';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
-  selectedSaisonId = 8;
-
-  testdata = [{'id': 1, 'name': "2014"},{'id': 2, 'name': "2015"},{'id': 3, 'name': "2016"}];
-  selectedValue = null;
+  title = "dsf";
 
   public constructor(public dataService: DataService) {
-    
+    this.title = environment.title;
   }
 
 }

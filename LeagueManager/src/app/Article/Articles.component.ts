@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Http } from "@angular/http";
 import { AbstractDataComponent } from '../AbstractDataComponent';
 import { SettingsService } from '../Services/SettingsService';
+import { environment } from '../../environments/environment';
 
 @Component({
     selector: 'Articles',
@@ -16,10 +17,10 @@ export class ArticlesComponent extends AbstractDataComponent {
     protected getUrl(): string {
         let url = super.getUrl() + '?order=created,desc';
 
-        if (this.settings.TeamId < 0)
+        if (environment.teamId < 0)
             url += '&filter=team_id,isnull';
         else
-            url += '&filter=team_id,eq,' + this.settings.TeamId;
+            url += '&filter=team_id,eq,' + environment.teamId;
         
         return url;
     }
